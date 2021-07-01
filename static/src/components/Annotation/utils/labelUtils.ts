@@ -27,6 +27,7 @@ export const nMostCommonLabels = (labelCounts: LabelCounts, n: number): Label[] 
     labelId: l.labelId,
     title: l.title,
     categories: l.categories,
+    negated: false,
   }))
 }
 

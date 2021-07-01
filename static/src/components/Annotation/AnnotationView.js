@@ -40,7 +40,9 @@ import {
   SEARCH_AUTOMATIC,
   MANUAL,
   DYNAMIC,
-  MODIFIED
+  MODIFIED,
+  ACCEPTED,
+  ACCEPTED_WITH_NEGATION
 } from './types';
 import {
   DYNAMIC_SUGGESTIONS_ENABLED
@@ -249,10 +251,33 @@ class AnnotationView extends React.Component {
 
     if (decision === MODIFIED) {
       const newLabels = editedAnnotation.labels.filter(l => l.confidence === undefined);
+
       editedAnnotation.labels = newLabels;
       this.setState({
         selectedLabels: newLabels
       });
+    } else if (decision === ACCEPTED_WITH_NEGATION) {
+      var newLabels = [];
+      for (let l of editedAnnotation.labels) {
+        l.negated = true
+        newLabels.push(l)
+      }
+      editedAnnotation.labels = newLabels;
+      this.setState({
+        selectedLabels: newLabels
+      });
+    } else if (decision === ACCEPTED) {
+      var newLabels = [];
+      for (let l of editedAnnotation.labels) {
+        l.negated = false
+        newLabels.push(l)
+      }
+      editedAnnotation.labels = newLabels;
+      this.setState({
+        selectedLabels: newLabels
+      });
+    } else {
+      console.log(decision)
     }
 
     const newAnnotations = annotations.filter(a => a.annotationId !== id);
@@ -408,7 +433,6 @@ class AnnotationView extends React.Component {
       metadata
     );
     const isLogged = await logPromise.then((response) => response.data);
-    // console.log({action, isLogged: isLogged.log});
     return isLogged;
   }
 

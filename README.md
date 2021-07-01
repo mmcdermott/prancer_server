@@ -20,7 +20,16 @@ The platform requires **python3.7**, **node.js**, and several other python and j
 
 ### Backend requirements
 
-#### 1) First check if python3 is installed.
+#### Via conda
+Set `OUTPUT_ENV_PATH` To the desired path to the conda environment.
+Run
+```
+conda env create -f conda_env.yml -p $OUTPUT_ENV_PATH
+conda activate $OUTPUT_ENV_PATH
+```
+
+#### Without conda
+##### 1) First check if python3 is installed.
 
 You can check to see if it is installed:
 ```
@@ -33,7 +42,7 @@ If you need to install it, you can easily do that with a package manager like Ho
 $ brew install python3
 ```
 
-#### 2) With python3 installed, install necessary python packages.
+##### 2) With python3 installed, install necessary python packages.
 
 You can install packages with the python package installer pip:
 ```
@@ -82,8 +91,8 @@ If so, try adding ```--user``` to install commands.
 ### Run the backend
 
 Open one terminal tab to run the backend server:
-```sh
-$ python3 manage.py runserver
+```
+PYTHONPATH="/path/to/dir:/path/to/dir/prancer:$PYTHONPATH" FLASK_APP=manage.py flask run
 ```
 If all goes well, you should see `* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)` followed by a few more lines in the terminal.
 

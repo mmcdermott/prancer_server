@@ -1,3 +1,5 @@
+import os
+
 ## LOCAL FILEPATHS ##
 
 FILES_DIRECTORY = "./data"                     # Annotation text files and saved annotations
@@ -22,7 +24,7 @@ STORAGE_DIRECTORY = './tutorial/attempts'      # Tutorial attempts by timestamp
 
 TUTORIAL_LENGTH = 4                                  # Number of steps in the tutorial (also frontend)
 
-UMLS_APIKEY = "" # Key to make UMLS API calls
+UMLS_APIKEY = os.environ["UMLS_APIKEY"] # Key to make UMLS API calls
 UMLS_URI = "https://uts-ws.nlm.nih.gov"              # URI to make UMLS API calls
 
 # Options for pre-filled suggestions are "NONE", "CSV", and "MAP"

@@ -1,9 +1,9 @@
 import React from 'react'
 import Tooltip  from '@material-ui/core/Tooltip'
-import { Clear } from '@material-ui/icons'
+import { Clear, RemoveCircle, CheckCircle } from '@material-ui/icons'
 import InfoModal from './InfoModal'
 import { Filtermap, Label, UMLSDefinition } from './types'
-import { hex2rgba, createBackground } from './utils'
+import { hex2rgba, createNegatedBackground, createBackground } from './utils'
 
 interface LabelListItemProps {
   label: Label
@@ -11,6 +11,8 @@ interface LabelListItemProps {
   selected?: boolean
   onClick?: () => void
   onDeleteClick?: () => void
+  onNegateClick?: () => void
+  onAssertClick?: () => void
   onUMLSClick: () => void
   UMLSInfo: UMLSDefinition[]
   onMouseEnter: () => void
@@ -23,7 +25,7 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
   }
 
   render() {
-    const { labelId, title, categories, confidence } = this.props.label
+    const { labelId, title, categories, confidence, negated } = this.props.label
     const categoryText = categories
       ? categories.map(c => c.title).join(' | ')
       : 'None'
@@ -38,7 +40,17 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
     const categoryColors = categories && categories.map(
       c => hex2rgba(this.props.colormap[c.type], colorOpacity)
     )
-    const background = createBackground(categoryColors)
+    const background         = createBackground(categoryColors)
+    const negated_background = createNegatedBackground(categoryColors)
+
+    const negate_accept_style_inactive = {
+      fontSize: 20, color: '#fc6f03', background: 'rgba(256, 256, 256, 0.5)', border: '1px solid black',
+      borderRadius: 5
+    }
+    const negate_accept_style_active = {
+      fontSize: 20, color: '#fc6f03', background: 'rgba(256, 256, 256, 0.8)', border: '2px solid black',
+      borderRadius: 5
+    }
 
     return (
       <Tooltip title={tooltipText}>
@@ -49,7 +61,11 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
           onMouseLeave={this.props.onMouseLeave}
 
         >
-          <div className="label-title" style={{ background, border: this.props.selected && '2px solid black' }}>
+          <div className="label-title" style={{
+              background: negated ? negated_background : background,
+              border: this.props.selected && '2px solid black'
+            }}
+          >
             <div className="label-title-text">{title}</div>
             <div className="label-link" onClick={e => e.stopPropagation()}>
               <InfoModal
@@ -59,17 +75,35 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
                 UMLSInfo={this.props.UMLSInfo}
               />
             </div>
+            <div className="label-accept-button" onClick={e => e.stopPropagation()}>
+              <Tooltip title="Flag (positive assertion)">
+                <CheckCircle
+                  style={negated ? negate_accept_style_inactive : negate_accept_style_active}
+                  onClick={(e) => {this.props.onAssertClick()}}
+                />
+              </Tooltip>
+            </div>
+            <div className="label-negate-button" onClick={e => e.stopPropagation()}>
+              <Tooltip title="Flag (negative assertion)">
+                <RemoveCircle
+                  style={negated ? negate_accept_style_active : negate_accept_style_inactive}
+                  onClick={(e) => {this.props.onNegateClick()}}
+                />
+              </Tooltip>
+            </div>
             <div className="label-delete-button">
               {this.props.onDeleteClick && this.props.selected &&
-                <Clear
-                  className='hover-state'
-                  style={{fontSize: 20}}
-                  color="error"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    this.props.onDeleteClick();
-                  }}
-                />
+                <Tooltip title="Remove">
+                  <Clear
+                    className='hover-state'
+                    style={{fontSize: 20}}
+                    color="error"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      this.props.onDeleteClick();
+                    }}
+                  />
+                </Tooltip>
               }
             </div>
           </div>

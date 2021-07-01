@@ -11,6 +11,7 @@ import {
   LOG_SCROLL,
   LOG_LABEL_FILTER,
   LOG_LABEL_ADD,
+  LOG_LABEL_ADD_NEGATED,
   LOG_LABEL_REMOVE,
   SEARCH_TYPE,
   LOG_LABEL_MOUSE_ON,
@@ -69,11 +70,32 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
 
   addLabel = (label: Label, i: number) => {
     const { selectedLabels, setSelectedLabels, searchMode } = this.props
-    if (!selectedLabels.map(l => l.labelId).includes(label.labelId)) {
+
+    const label_already_present = selectedLabels.map(l => l.labelId).includes(label.labelId)
+
+    if (!label_already_present) {
       setSelectedLabels([...selectedLabels, label])
     }
 
     this.props.addLogEntryBound(LOG_LABEL_ADD, [label.labelId, String(i), searchMode])
+  }
+
+  addNegatedLabel = (label: Label, i: number) => {
+    const { selectedLabels, setSelectedLabels, searchMode } = this.props
+
+    const labelAlreadyPresent = selectedLabels.map(l => l.labelId).includes(label.labelId)
+    const labelIdx = labelAlreadyPresent ? selectedLabels.findIndex(l => l.labelId == label.labelId) : selectedLabels.length
+
+    label.negated = true
+
+    if (labelAlreadyPresent) {
+      selectedLabels[labelIdx].negated=true
+      setSelectedLabels(selectedLabels)
+    } else {
+      setSelectedLabels([...selectedLabels, label])
+    }
+
+    this.props.addLogEntryBound(LOG_LABEL_ADD_NEGATED, [label.labelId, String(i), searchMode])
   }
 
   removeLabel = (id: string) => {
@@ -122,7 +144,11 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
       selectedFilter
     } = this.state
 
-    const filteredLabels = filterLabelsByType(searchedLabels, selectedFilter)
+    const selectedIDs = selectedLabels.map(l => l.labelId)
+
+    const filteredLabels = filterLabelsByType(searchedLabels, selectedFilter).map(
+      l => selectedIDs.includes(l.labelId) ? selectedLabels.filter(ll => ll.labelId == l.labelId)[0] : l
+    )
 
     return (
       <div className="label-controller">
@@ -162,8 +188,10 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
                 key={label.labelId}
                 label={label}
                 colormap={colormap}
-                selected={selectedLabels.map(l=>l.labelId).includes(label.labelId)}
+                selected={selectedIDs.includes(label.labelId)}
                 onClick={() => this.addLabel(label, i)}
+                onNegateClick={() => this.addNegatedLabel(label, i)}
+                onAssertClick={() => this.addLabel(label, i)}
                 onDeleteClick={() => this.removeLabel(label.labelId)}
                 onUMLSClick={() => this.props.onUMLSClick(label.labelId)}
                 UMLSInfo={this.props.UMLSInfo}
