@@ -28,3 +28,6 @@ data/log/*
 !data/log/.gitkeep
 tutorial/users/*
 !tutorial/users/.gitkeep
+
+tags
+__MACOSX
