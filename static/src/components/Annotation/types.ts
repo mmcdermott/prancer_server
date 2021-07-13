@@ -23,17 +23,22 @@ export type CREATION_TYPE = typeof MANUAL | typeof AUTO | typeof DYNAMIC;
 
 export const UNDECIDED = 'undecided';
 export const ACCEPTED_WITH_NEGATION = 'accepted_with_negation';
+export const ACCEPTED_WITH_UNCERTAINTY = 'accepted_with_uncertainty';
 export const ACCEPTED = 'accepted';
 export const REJECTED = 'rejected';
 export const MODIFIED = 'modified';
-export type DECISION_TYPE = typeof UNDECIDED | typeof ACCEPTED | typeof REJECTED | typeof MODIFIED | typeof ACCEPTED_WITH_NEGATION;
+export type DECISION_TYPE = typeof UNDECIDED | typeof ACCEPTED
+  | typeof REJECTED | typeof MODIFIED | typeof ACCEPTED_WITH_NEGATION
+  | typeof ACCEPTED_WITH_UNCERTAINTY;
 
 export const LOG_HIGHLIGHT = 'HIGHLIGHT';
 export const LOG_SCROLL = 'SCROLL';
 export const LOG_LABEL_ADD = 'LABEL-ADD';
 export const LOG_LABEL_ADD_NEGATED = 'LABEL-ADD-NEGATED';
+export const LOG_LABEL_ADD_UNCERTAIN = 'LABEL-ADD-UNCERTAIN';
 export const LOG_LABEL_REMOVE = 'LABEL-REMOVE';
 export const LOG_LABEL_NEGATE = 'LABEL-NEGATE';
+export const LOG_LABEL_MARK_UNCERTAIN = 'LABEL-MARK-UNCERTAIN';
 export const LOG_LABEL_ASSERT = 'LABEL-ASSERT';
 export const LOG_RECOMMEND = 'RECOMMEND-KEYWORD';
 export const LOG_SEARCH_KEYWORD = 'SEARCH-KEYWORD';
@@ -55,6 +60,7 @@ export const LOG_CUI_MODE_CHANGE = 'CUI-MODE-CHANGE';
 export const LOG_ANNOTATION_SELECT = 'ANNOTATION-SELECT';
 export type LOG_TYPE = typeof LOG_HIGHLIGHT | typeof LOG_SCROLL
   | typeof LOG_LABEL_ADD | typeof LOG_LABEL_REMOVE | typeof LOG_LABEL_ADD_NEGATED | typeof LOG_LABEL_NEGATE
+  | typeof LOG_LABEL_ADD_UNCERTAIN | typeof LOG_LABEL_MARK_UNCERTAIN
   | typeof LOG_LABEL_ASSERT
   | typeof LOG_LABEL_FILTER | typeof LOG_LABEL_INFO
   | typeof LOG_RECOMMEND
@@ -85,6 +91,7 @@ export type Label = {
   labelId: string;
   title: string;
   negated: boolean;
+  uncertain: boolean;
   categories: Category[];
   confidence?: CONFIDENCE_TYPE;
 }

@@ -246,7 +246,7 @@
 }
 
 .label-title-text {
-  width: calc(100% - 85px);
+  width: calc(100% - 105px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -257,6 +257,9 @@
   float: right;
 }
 
+.label-uncertain-button {
+  float: right;
+}
 .label-negate-button {
   float: right;
 }

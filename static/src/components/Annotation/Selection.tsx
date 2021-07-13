@@ -10,6 +10,7 @@ import {
   LOG_TYPE,
   LOG_LABEL_REMOVE,
   LOG_LABEL_NEGATE,
+  LOG_LABEL_MARK_UNCERTAIN,
   LOG_LABEL_ASSERT,
   LOG_LABEL_MOUSE_ON,
   LOG_LABEL_MOUSE_OFF,
@@ -67,11 +68,24 @@ class Selection extends React.Component<SelectionProps, SelectionState> {
     this.props.addLogEntryBound(LOG_LABEL_ASSERT, [id])
   }
 
+  markUncertainLabel = (id: string) => {
+    const { selectedLabels, setSelectedLabels } = this.props
+    const i = selectedLabels.findIndex(l => l.labelId == id)
+    if (i >= 0 && i < selectedLabels.length) {
+      selectedLabels[i].negated = false
+      selectedLabels[i].uncertain = true
+      setSelectedLabels(selectedLabels)
+    }
+
+    this.props.addLogEntryBound(LOG_LABEL_MARK_UNCERTAIN, [id])
+  }
+
   negateLabel = (id: string) => {
     const { selectedLabels, setSelectedLabels } = this.props
     const i = selectedLabels.findIndex(l => l.labelId == id)
     if (i >= 0 && i < selectedLabels.length) {
       selectedLabels[i].negated = true
+      selectedLabels[i].uncertain = false
       setSelectedLabels(selectedLabels)
     }
 
@@ -121,6 +135,7 @@ class Selection extends React.Component<SelectionProps, SelectionState> {
                   colormap={colormap}
                   onDeleteClick={() => this.removeLabel(label.labelId)}
                   onNegateClick={() => this.negateLabel(label.labelId)}
+                  onUncertainClick={() => this.markUncertainLabel(label.labelId)}
                   onAssertClick={() => this.assertLabel(label.labelId)}
                   onUMLSClick={() => onUMLSClick(label.labelId)}
                   UMLSInfo={UMLSInfo}

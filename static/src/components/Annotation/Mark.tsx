@@ -14,6 +14,7 @@ export interface MarkProps {
   border?: boolean
   fill?: boolean
   fillStripe?: boolean
+  fillHalfStripe?: boolean
   stripeColor?: string
   onClick: Function
 }
@@ -40,7 +41,11 @@ const Mark: React.SFC<MarkProps> = props => {
     props.fillStripe ? (
       `repeating-linear-gradient(-45deg, ${main_color}, ${main_color} 10px, ${stripe_color} 20px, ${stripe_color} 30px)`
     ) : (
-      props.fill && main_color
+      props.fillHalfStripe ? (
+        `repeating-linear-gradient(45deg, ${main_color}, ${main_color} 20px, ${stripe_color} 30px, ${stripe_color} 40px)`
+      ) : (
+        props.fill && main_color
+      )
     )
   )
 

@@ -42,7 +42,8 @@ import {
   DYNAMIC,
   MODIFIED,
   ACCEPTED,
-  ACCEPTED_WITH_NEGATION
+  ACCEPTED_WITH_NEGATION,
+  ACCEPTED_WITH_UNCERTAINTY
 } from './types';
 import {
   DYNAMIC_SUGGESTIONS_ENABLED
@@ -260,6 +261,18 @@ class AnnotationView extends React.Component {
       var newLabels = [];
       for (let l of editedAnnotation.labels) {
         l.negated = true
+        l.uncertain = false
+        newLabels.push(l)
+      }
+      editedAnnotation.labels = newLabels;
+      this.setState({
+        selectedLabels: newLabels
+      });
+    } else if (decision === ACCEPTED_WITH_UNCERTAINTY) {
+      var newLabels = [];
+      for (let l of editedAnnotation.labels) {
+        l.negated = false
+        l.uncertain = true
         newLabels.push(l)
       }
       editedAnnotation.labels = newLabels;
@@ -270,6 +283,7 @@ class AnnotationView extends React.Component {
       var newLabels = [];
       for (let l of editedAnnotation.labels) {
         l.negated = false
+        l.uncertain = false
         newLabels.push(l)
       }
       editedAnnotation.labels = newLabels;

@@ -1,9 +1,9 @@
 import React from 'react'
 import Tooltip  from '@material-ui/core/Tooltip'
-import { Clear, RemoveCircle, CheckCircle } from '@material-ui/icons'
+import { Clear, CheckCircle, Help, RemoveCircle } from '@material-ui/icons'
 import InfoModal from './InfoModal'
 import { Filtermap, Label, UMLSDefinition } from './types'
-import { hex2rgba, createNegatedBackground, createBackground } from './utils'
+import { hex2rgba, createNegatedBackground, createUncertainBackground, createBackground } from './utils'
 
 interface LabelListItemProps {
   label: Label
@@ -12,6 +12,7 @@ interface LabelListItemProps {
   onClick?: () => void
   onDeleteClick?: () => void
   onNegateClick?: () => void
+  onUncertainClick?: () => void
   onAssertClick?: () => void
   onUMLSClick: () => void
   UMLSInfo: UMLSDefinition[]
@@ -25,7 +26,7 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
   }
 
   render() {
-    const { labelId, title, categories, confidence, negated } = this.props.label
+    const { labelId, title, categories, confidence, negated, uncertain } = this.props.label
     const categoryText = categories
       ? categories.map(c => c.title).join(' | ')
       : 'None'
@@ -42,6 +43,7 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
     )
     const background         = createBackground(categoryColors)
     const negated_background = createNegatedBackground(categoryColors)
+    const uncertain_background = createUncertainBackground(categoryColors)
 
     const negate_accept_style_inactive = {
       fontSize: 20, color: '#fc6f03', background: 'rgba(256, 256, 256, 0.5)', border: '1px solid black',
@@ -62,7 +64,7 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
 
         >
           <div className="label-title" style={{
-              background: negated ? negated_background : background,
+              background: negated ? negated_background : uncertain ? uncertain_background : background,
               border: this.props.selected && '2px solid black'
             }}
           >
@@ -88,6 +90,14 @@ class LabelListItem extends React.Component<LabelListItemProps, {}> {
                 <RemoveCircle
                   style={negated ? negate_accept_style_active : negate_accept_style_inactive}
                   onClick={(e) => {this.props.onNegateClick()}}
+                />
+              </Tooltip>
+            </div>
+            <div className="label-uncertain-button" onClick={e => e.stopPropagation()}>
+              <Tooltip title="Flag (uncertain assertion)">
+                <Help
+                  style={uncertain ? negate_accept_style_active : negate_accept_style_inactive}
+                  onClick={(e) => {this.props.onUncertainClick()}}
                 />
               </Tooltip>
             </div>

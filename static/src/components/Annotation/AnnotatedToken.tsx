@@ -1,8 +1,11 @@
 import React from 'react'
 import Menu from '@material-ui/core/Menu';
 import Tooltip  from '@material-ui/core/Tooltip'
-import { Check, Clear, Edit, RemoveCircle } from '@material-ui/icons';
-import { ACCEPTED, ACCEPTED_WITH_NEGATION, AUTO, DECISION_TYPE, Filtermap, MODIFIED, REJECTED, Token, DYNAMIC, MANUAL, UNDECIDED } from './types'
+import { Check, Clear, Edit, RemoveCircle, Help } from '@material-ui/icons';
+import {
+  ACCEPTED, ACCEPTED_WITH_NEGATION, ACCEPTED_WITH_UNCERTAINTY, AUTO, DECISION_TYPE, Filtermap, Label,
+  MODIFIED, REJECTED, Token, DYNAMIC, MANUAL, UNDECIDED 
+} from './types'
 import Mark from './Mark'
 import { getAnnotationTag, isTokenSelected } from './utils'
 
@@ -53,7 +56,11 @@ class AnnotatedToken extends React.Component<AnnotatedTokenProps, AnnotatedToken
     onSuggestionUpdate(primaryAnnotation.annotationId, result)
     this.handleSuggestionClose()
 
-    if (result == ACCEPTED || result == ACCEPTED_WITH_NEGATION || result == REJECTED) {
+    if ( result == ACCEPTED
+      || result == ACCEPTED_WITH_NEGATION
+      || result == ACCEPTED_WITH_UNCERTAINTY
+      || result == REJECTED
+    ) {
       onTextSelection(null)
     }
   }
@@ -131,8 +138,15 @@ class AnnotatedToken extends React.Component<AnnotatedTokenProps, AnnotatedToken
 
     const fill = !hasUndecidedSuggestion;
 
-    const isNegated = primaryAnnotation && primaryAnnotation.decision == ACCEPTED_WITH_NEGATION;
-    const stripeColor = isNegated ? '#ffffff': '';
+    const isNegated   = (
+      (primaryAnnotation && primaryAnnotation.decision == ACCEPTED_WITH_NEGATION)
+      || (labels && labels.some( (l: Label) => l.negated ))
+    );
+    const isUncertain   = (
+      (primaryAnnotation && primaryAnnotation.decision == ACCEPTED_WITH_UNCERTAINTY)
+      || (labels && labels.some( (l: Label) => l.uncertain ))
+    );
+    const stripeColor = (isNegated || isUncertain) ? '#ffffff': '';
 
     return (
       <div
@@ -151,6 +165,7 @@ class AnnotatedToken extends React.Component<AnnotatedTokenProps, AnnotatedToken
           border={border}
           fill={fill}
           fillStripe={isNegated}
+          fillHalfStripe={isUncertain}
           stripeColor={stripeColor}
         />
         {
@@ -180,6 +195,14 @@ class AnnotatedToken extends React.Component<AnnotatedTokenProps, AnnotatedToken
               >
                 <Tooltip title={"Accept with Negation"}>
                   <RemoveCircle className="suggestion-menu-icon" style={{ color: '#fc6f03' }}/>
+                </Tooltip>
+              </div>
+              <div
+                className={`suggestion-menu-item hover-state ${primaryAnnotation.decision == ACCEPTED_WITH_UNCERTAINTY ? 'suggestion-menu-selected' : ''}`}
+                onClick={() => this.handleSuggestionUpdate(ACCEPTED_WITH_UNCERTAINTY)}
+              >
+                <Tooltip title={"Accept with Uncertainty"}>
+                  <Help className="suggestion-menu-icon" style={{ color: '#5c5c5c' }}/>
                 </Tooltip>
               </div>
               <div

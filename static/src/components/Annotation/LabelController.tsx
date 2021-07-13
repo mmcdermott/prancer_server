@@ -12,6 +12,7 @@ import {
   LOG_LABEL_FILTER,
   LOG_LABEL_ADD,
   LOG_LABEL_ADD_NEGATED,
+  LOG_LABEL_ADD_UNCERTAIN,
   LOG_LABEL_REMOVE,
   SEARCH_TYPE,
   LOG_LABEL_MOUSE_ON,
@@ -73,6 +74,9 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
 
     const label_already_present = selectedLabels.map(l => l.labelId).includes(label.labelId)
 
+    label.negated = false
+    label.uncertain = false
+
     if (!label_already_present) {
       setSelectedLabels([...selectedLabels, label])
     }
@@ -87,15 +91,37 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
     const labelIdx = labelAlreadyPresent ? selectedLabels.findIndex(l => l.labelId == label.labelId) : selectedLabels.length
 
     label.negated = true
+    label.uncertain = false
 
     if (labelAlreadyPresent) {
       selectedLabels[labelIdx].negated=true
+      selectedLabels[labelIdx].uncertain=false
       setSelectedLabels(selectedLabels)
     } else {
       setSelectedLabels([...selectedLabels, label])
     }
 
     this.props.addLogEntryBound(LOG_LABEL_ADD_NEGATED, [label.labelId, String(i), searchMode])
+  }
+
+  addUncertainLabel = (label: Label, i: number) => {
+    const { selectedLabels, setSelectedLabels, searchMode } = this.props
+
+    const labelAlreadyPresent = selectedLabels.map(l => l.labelId).includes(label.labelId)
+    const labelIdx = labelAlreadyPresent ? selectedLabels.findIndex(l => l.labelId == label.labelId) : selectedLabels.length
+
+    label.negated = false
+    label.uncertain = true
+
+    if (labelAlreadyPresent) {
+      selectedLabels[labelIdx].negated=false
+      selectedLabels[labelIdx].uncertain=true
+      setSelectedLabels(selectedLabels)
+    } else {
+      setSelectedLabels([...selectedLabels, label])
+    }
+
+    this.props.addLogEntryBound(LOG_LABEL_ADD_UNCERTAIN, [label.labelId, String(i), searchMode])
   }
 
   removeLabel = (id: string) => {
@@ -191,6 +217,7 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
                 selected={selectedIDs.includes(label.labelId)}
                 onClick={() => this.addLabel(label, i)}
                 onNegateClick={() => this.addNegatedLabel(label, i)}
+                onUncertainClick={() => this.addUncertainLabel(label, i)}
                 onAssertClick={() => this.addLabel(label, i)}
                 onDeleteClick={() => this.removeLabel(label.labelId)}
                 onUMLSClick={() => this.props.onUMLSClick(label.labelId)}

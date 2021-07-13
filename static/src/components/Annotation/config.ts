@@ -6,18 +6,21 @@ const SAMPLE_LABELS: Label[] = [
     title: 'Label0',
     categories: [{ title: 'category', type: 'general' }],
     negated: false,
+    uncertain: false,
   },
   {
     labelId: 'C001',
     title: 'Label1',
     categories: [{ title: 'category', type: 'general' }],
     negated: false,
+    uncertain: false,
   },
   {
     labelId: 'C002',
     title: 'Label2',
     categories: [{ title: 'category', type: 'general' }],
     negated: false,
+    uncertain: false,
   }
 ]
 
