@@ -77,7 +77,16 @@ class TextController extends React.Component<TextControllerProps, TextController
   createTokenDisplay = (token: Token, key: number) => {
     const { span: { start, end } } = token
 
-    return token.annotations && token.annotations.length > 0
+    if ( token.annotations ) {
+      token.annotations = token.annotations.filter( (a) => a.labels.length > 0 )
+    }
+
+    const has_annotations = (
+      token.annotations &&
+      token.annotations.length > 0
+    )
+
+    return has_annotations
       ? (
         <AnnotatedToken
           key={key}
