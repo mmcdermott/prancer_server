@@ -145,4 +145,7 @@ dependencies:
   - zeromq=4.3.4=h2531618_0
   - zipp=3.5.0=pyhd3eb1b0_0
   - zlib=1.2.11=h516909a_1010
+  - pip:
+    - flask-login==0.5.0
+    - wtforms==2.3.3
 prefix: /crimea/conda_envs/prancer
