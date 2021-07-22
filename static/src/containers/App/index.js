@@ -9,6 +9,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions';
 
+import {
+    LOGIN_FAILURE,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+} from '../../constants/index';
+
 /* application components */
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -16,16 +22,28 @@ import { Footer } from '../../components/Footer';
 /* global styles for app */
 import './styles/app.scss';
 
+function mapStateToProps(state) {
+    return {};
+}
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators.default, dispatch);
 }
 
-@connect(mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
-    login(email, password) {
-        console.log(email)
-        console.log(password)
-        return false
+    do_login(email, password) {
+        const { login } = this.props;
+
+        const login_result = login(email, password)
+
+        if (login_result.type == LOGIN_SUCCESS) {
+            this.setState({ logged_in: true })
+            return true
+        } else {
+            this.setState({ logged_in: false })
+            return false
+        }
     }
 
     render() {
@@ -46,7 +64,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         return (
             <MuiThemeProvider theme={createMuiTheme(theme)}>
                 <section>
-                    <Header login={(username, password) => this.login(username, password)} />
+                    <Header login={(username, password) => this.do_login(username, password)} />
                     <div
                       className="container"
                       style={{ marginTop: 10, paddingBottom: 20 }}

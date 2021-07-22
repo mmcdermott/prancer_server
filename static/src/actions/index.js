@@ -4,6 +4,7 @@ import * as colormapActionCreators from './colormap';
 import * as umlsActionCreators from './umls';
 import * as tutorialActionCreators from './tutorial'
 import * as logActionCreators from './log'
+import * as loginActionCreators from './login'
 
 const actionCreators = {
   ...fileActionCreators,
@@ -11,7 +12,8 @@ const actionCreators = {
   ...colormapActionCreators,
   ...umlsActionCreators,
   ...tutorialActionCreators,
-  ...logActionCreators
+  ...logActionCreators,
+  ...loginActionCreators
 };
 
 export default actionCreators

@@ -50,10 +50,11 @@ export class Header extends Component {
 
     login(e) {
         e.preventDefault();
+        e.stopPropagation();
         const { email, password } = this.state
         const success = this.props.login(email, password);
         this.setState({
-            open: true,
+            open: success,
             login_form_open: !success,
         });
     }
@@ -111,8 +112,10 @@ export class Header extends Component {
                     <Typography variant="title" color="inherit" className="flex">
                       Clinical Annotation
                     </Typography>
-                    <IconButton className="user-button" color="inherit" aria-label="Login">
-                      <AccountCircle onClick={() => this.openLoginForm()} />
+                    <IconButton
+                        className="user-button" color="inherit" aria-label="Login" onClick={() => this.openLoginForm()}
+                    >
+                      <AccountCircle />
                     </IconButton>
                   </Toolbar>
                 </AppBar>

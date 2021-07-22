@@ -48,8 +48,8 @@ export function add_log_entry(id, action, annotation_id, metadata) {
 
 export function post_login(email, password) {
   const form = { email, password };
-  return axios.post('/login', { form });
+  return axios.post('/api/login', { form });
 }
 export function post_logout() {
-  return axios.post('/logout', { });
+  return axios.post('/api/logout', { });
 }

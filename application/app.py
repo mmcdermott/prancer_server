@@ -23,21 +23,26 @@ class LoginForm(Form):
     email = TextField('E-mail', [validators.Required(), validators.Length(min=4, max=25)])
     password = PasswordField('Password', [validators.Required(), validators.Length(min=6, max=200)])
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    # user_id = TODO
-    # password = TODO
-    form = LoginForm(request.form)
+    request_email = request.json['form']['email']
+    request_password = request.json['form']['password']
+    form = LoginForm(email=request_email, password=request_password)
     if request.method == 'POST' and form.validate():
-        user_id, password = form.email, form.password
+        user_id, password = request_email, request_password
 
         if StaticUser.is_valid(user_id, password):
+            print("Success: ", user_id, password)
             login_user(load_user(user_id))
+            return jsonify(success=True)
+        else:
+            print("Failure: ", user_id, password)
+            return jsonify(success=False)
+    else:
+        print("v4; invalid")
+        return jsonify(success=False)
 
-        return
-    else: return
-
-@app.route('/logout', methods=['POST'])# TODO: is POST right?
+@app.route('/api/logout', methods=['POST'])# TODO: is POST right?
 def logout():
     logout_user()
     return
