@@ -37,11 +37,9 @@ export function login(email, password) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    if (response.success) {
-                        dispatch(loginSuccess(response));
-                    } else {
-                        dispatch(loginFailure(response));
-                    }
+                    const out = response.success ? loginSuccess(response) : loginFailure(response);
+                    dispatch(out);
+                    return out;
                 } catch (e) {
                     alert(e);
                     dispatch(loginFailure({

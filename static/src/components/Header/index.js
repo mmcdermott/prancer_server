@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import { createBrowserHistory } from 'history';
-const browserHistory = createBrowserHistory();
-
+import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
+import AlertImport from '@material-ui/lab/Alert/index.js';
+const Alert = AlertImport.default;
 
 import AppBarImport from '@material-ui/core/AppBar/index.js';
 const AppBar = AppBarImport.default;
@@ -12,8 +12,8 @@ const AppBar = AppBarImport.default;
 import ButtonImport from '@material-ui/core/Button/index.js';
 const Button = ButtonImport.default;
 
-import AlertImport from '@material-ui/lab/Alert/index.js';
-const Alert = AlertImport.default;
+import CircularProgressImport from '@material-ui/core/CircularProgress/index.js';
+const CircularProgress = CircularProgressImport.default;
 
 import DialogImport from '@material-ui/core/Dialog/index.js';
 const Dialog = DialogImport.default;
@@ -53,6 +53,22 @@ const IconButton = IconButtonImport.default;
 
 import { AccountCircle, ExitToApp, Menu } from '@material-ui/icons/index.js';
 
+function RoutingMenuItem(props) {
+    let history = useHistory();
+    const { route, children, onClick, disabled } = props;
+
+    function handleClick() {
+        history.push(route);
+        onClick();
+    }
+
+    return (
+        <MenuItem onClick={() => handleClick()} disabled={disabled} >
+          {children}
+        </MenuItem>
+    )
+}
+
 export default class Header extends Component {
     constructor(props) {
         super(props);
@@ -62,17 +78,7 @@ export default class Header extends Component {
             email: '',
             password: '',
         };
-
     }
-
-    dispatchNewRoute(route) {
-        browserHistory.push(route);
-        this.setState({
-            open: false,
-        });
-
-    }
-
 
     handleClickOutside() {
         this.setState({
@@ -86,11 +92,7 @@ export default class Header extends Component {
         e.preventDefault();
         e.stopPropagation();
         const { email, password } = this.state
-        const success = this.props.login(email, password);
-        this.setState({
-            open: success,
-            login_form_open: !success,
-        });
+        this.props.login(email, password);
     }
 
 
@@ -139,7 +141,7 @@ export default class Header extends Component {
     }
 
     renderLoginDialog() {
-      const { login_failure } = this.props;
+      const { login_failure, login_pending, login_error } = this.props;
       return (
         <Dialog
           open={this.state.login_form_open}
@@ -149,6 +151,7 @@ export default class Header extends Component {
           <DialogTitle id="login-form">Login</DialogTitle>
           <DialogContent>
             { login_failure && (<Alert severity="error"> Invalid email/password! </Alert>) }
+            { login_error && (<Alert severity="error"> Something went wrong! </Alert>) }
             <TextField
               autoFocus
               margin="dense"
@@ -178,9 +181,11 @@ export default class Header extends Component {
             <Button onClick={(e) => this.closeLoginForm(e)} color="primary">
               Cancel
             </Button>
-            <Button onClick={(e) => this.login(e)} color="primary">
-              Login
-            </Button>
+            { login_pending && <CircularProgress />}
+            { !login_pending && <Button onClick={(e) => this.login(e)} color="primary">
+                Login
+              </Button>
+            }
           </DialogActions>
         </Dialog>
       )
@@ -203,41 +208,48 @@ export default class Header extends Component {
     render() {
         return (
             <header>
-                <LeftNav open={this.state.open}>
-                    {
-                      <div>
-                        <MenuItem onClick={() => this.dispatchNewRoute('/home')}>
-                            Home
-                        </MenuItem>
-                        <MenuItem onClick={() => this.dispatchNewRoute('/tutorial')}>
-                            Tutorial
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => this.dispatchNewRoute('/filesView')}
-                          disabled={!this.props.logged_in}
-                        >
-                            Files
-                        </MenuItem>
-                      </div>
-                    }
-                </LeftNav>
-                <AppBar position="static">
-                  <Toolbar>
-                    <IconButton
-                      className="menu-button"
-                      color="inherit"
-                      aria-label="Menu"
-                      onClick={() => this.openNav()}
-                    >
-                      <Menu  />
-                    </IconButton>
-                    <Typography variant="h1" color="inherit" className="flex">
-                      Clinical Annotation
-                    </Typography>
-                    { this.props.logged_in ? this.renderLogoutButton() : this.renderLoginButton() }
-                  </Toolbar>
-                </AppBar>
-                { this.renderLoginDialog() }
+              <LeftNav open={this.state.open} onClose={() => this.handleClickOutside()}>
+                <div>
+                  <RoutingMenuItem
+                    onClick={() => this.handleClickOutside()}
+                    route='/'
+                    disabled={false}
+                  >
+                      Home
+                  </RoutingMenuItem>
+                  <RoutingMenuItem
+                    onClick={() => this.handleClickOutside()}
+                    route='/tutorial'
+                    disabled={false}
+                  >
+                      Tutorial
+                  </RoutingMenuItem>
+                  <RoutingMenuItem
+                    onClick={() => this.handleClickOutside()}
+                    route='/filesView'
+                    disabled={!this.props.logged_in}
+                  >
+                      Files
+                  </RoutingMenuItem>
+                </div>
+              </LeftNav>
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton
+                    className="menu-button"
+                    color="inherit"
+                    aria-label="Menu"
+                    onClick={() => this.openNav()}
+                  >
+                    <Menu  />
+                  </IconButton>
+                  <Typography variant="h6" color="inherit" className="flex">
+                    Clinical Annotation
+                  </Typography>
+                  { this.props.logged_in ? this.renderLogoutButton() : this.renderLoginButton() }
+                </Toolbar>
+              </AppBar>
+              { this.renderLoginDialog() }
             </header>
         );
     }

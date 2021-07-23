@@ -1,7 +1,7 @@
 /* eslint new-cap: 0 */
 
 import React from 'react';
-import { Switch } from 'react-router';
+import { Switch, Redirect } from 'react-router';
 import { Route } from 'react-router-dom';
 
 /* containers */
@@ -21,16 +21,15 @@ export default (
     <Route path="/">
         <App>
             <Switch>
-                <Route path="main" component={HomeContainer} />
-                <Route path="home" component={HomeContainer} />
-                <Route path="filesView" component={FilesViewer} />
-                <Route path="annotation" component={AnnotationView} />
-                <Route path="annotation/:fileId" component={AnnotationView} />
-                <Route path="tutorial" component={TutorialView} />
-                <Route path="tutorial/done" component={TutorialDoneContainer} />
-                <Route path="tutorial/:userId/:fileId" component={TutorialAnnotation} />
-                <Route path="tutorial/explanation/:userId/:fileId" component={TutorialExplanation} />
-                <Route path="*" component={NotFound} />
+                <Route exact path="/" component={HomeContainer} />
+                <Route path="/filesView" component={FilesViewer} />
+                <Route path="/annotation/:fileId" component={AnnotationView} />
+                <Route path="/annotation" component={AnnotationView} />
+                <Route path="/tutorial/done" component={TutorialDoneContainer} />
+                <Route path="/tutorial/:userId/:fileId" component={TutorialAnnotation} />
+                <Route path="/tutorial/explanation/:userId/:fileId" component={TutorialExplanation} />
+                <Route path="/tutorial" component={TutorialView} />
+                <Route component={NotFound} />
             </Switch>
         </App>
     </Route>

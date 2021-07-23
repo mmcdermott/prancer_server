@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Redirect } from 'react-router';
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -17,7 +16,6 @@ const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
         <Router>
-            <Redirect from="/" to="main" />
             {routes}
         </Router>
     </Provider>,
