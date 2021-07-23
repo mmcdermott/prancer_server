@@ -7,6 +7,9 @@ import { DEFAULT_PORT, SERVER_ADDRESS } from './constants.js';
 
 // Implement the old require function
 import { createRequire } from 'module'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url)
 
 const http = require('http');
@@ -30,7 +33,7 @@ app.use(require('morgan')('short'));
     const compiler = webpack(webpackConfig);
 
     app.use(require('webpack-dev-middleware')(compiler, {
-        noInfo: true, publicPath: webpackConfig.output.publicPath,
+        publicPath: webpackConfig.output.publicPath,
     }));
 
     app.use(require('webpack-hot-middleware')(compiler, {

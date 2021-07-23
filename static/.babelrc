@@ -1,14 +1,7 @@
 {
-  "presets": ["react", "@babel/preset-env" , "stage-0"],
+  "presets": ["@babel/preset-react", "@babel/preset-env"],
   "plugins": [
-    ["transform-decorators-legacy"],
-    ["transform-runtime", {
-      "regenerator": true
-    }]
-  ],
-  "env": {
-    "start": {
-      "presets": ["react-hmre"]
-    }
-  }
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-transform-runtime"
+  ]
 }

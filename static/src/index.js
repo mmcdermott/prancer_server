@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Redirect, browserHistory } from 'react-router';
+import { Router, Redirect } from 'react-router';
+
+import {createBrowserHistory} from 'history';
+const browserHistory = createBrowserHistory();
+
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import configureStore from './store/configureStore';
-import routes from './routes';
+import configureStore from './store/configureStore.js';
+import routes from './routes.js';
 import './style.scss';
 
 require('expose?$!expose?jQuery!jquery');

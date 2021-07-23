@@ -11,6 +11,4 @@ try {
 }
 
 import * as babel from "@babel/core";
-babel(config)
-
 import * as server from '../server.js';
