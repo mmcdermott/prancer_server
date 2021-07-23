@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles/index.js';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles/index.js';
 import { indigo, teal } from '@material-ui/core/colors/index.js';
 
 import { bindActionCreators } from 'redux';
@@ -80,7 +80,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         };
 
         return (
-            <MuiThemeProvider theme={createTheme(theme)}>
+          <div>
+            <ThemeProvider theme={createTheme(theme)}>
                 <section>
                     <Header
                       login={(username, password) => this.do_login(username, password)}
@@ -98,7 +99,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
                         <Footer />
                     </div>
                 </section>
-            </MuiThemeProvider>
+            </ThemeProvider>
+          </div>
         );
     }
 }

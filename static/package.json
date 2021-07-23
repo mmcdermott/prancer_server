@@ -89,7 +89,6 @@
     "react-hot-loader": "^4.13.0",
     "react-onclickoutside": "^6.11.2",
     "react-redux": "^7.2.4",
-    "react-router": "5.2.0",
     "react-router-redux": "^4.0.8",
     "react-transform-hmr": "^1.0.4",
     "redux": "^4.1.0",
@@ -120,6 +119,8 @@
     "core-js": "^3.15.2",
     "json-loader": "^0.5.7",
     "list-react-files": "^0.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "sass-loader": "^12.1.0",
     "webpack-dev-server": "^3.11.2"
   }

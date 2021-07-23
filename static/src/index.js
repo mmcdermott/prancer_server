@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Redirect } from 'react-router';
-
-import {createBrowserHistory} from 'history';
-const browserHistory = createBrowserHistory();
+import { Redirect } from 'react-router';
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { syncHistoryWithStore } from 'react-router-redux';
 
@@ -15,11 +13,10 @@ import './style.scss';
 // import 'expose?$!expose?jQuery!jquery';
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
+        <Router>
             <Redirect from="/" to="main" />
             {routes}
         </Router>
