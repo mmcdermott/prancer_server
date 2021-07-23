@@ -1,11 +1,17 @@
 import { DEFAULT_PORT, SERVER_ADDRESS } from './constants.js';
 
-const http = require('http');
-const express = require('express');
-const httpProxy = require('http-proxy');
-const path = require('path');
-require("babel-core/register");
-require("babel-polyfill");
+import * as http from 'http';
+import * as express from 'express';
+
+import * as httpProxy from 'http-proxy';
+//import pkg from 'http-proxy';
+//const {httpProxy} = pkg
+
+import * as path from 'path';
+import * as register from '@babel/register'
+import * as polyfill from '@babel/polyfill'
+
+console.log(httpProxy)
 
 const proxy = httpProxy.createProxyServer({});
 
