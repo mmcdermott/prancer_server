@@ -1,18 +1,23 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 
 interface FileListItemProps {
   file: string
-  onClick: (id: string) => void
+  useHistory: any
 }
 
 const FileListItem: React.SFC<FileListItemProps> = props => {
+  let history = props.useHistory();
+  const { file } = props;
+
+  function onClick(e: MouseEvent) {
+    e.preventDefault()
+    history.push(`/annotation/${file}`)
+  }
+
   return (
-    <div className="file-item" onClick={(event) => {
-      event.preventDefault()
-      props.onClick(props.file)
-    }}>
-      <div className="file-title" key={props.file}>
-        {props.file}
+    <div className="file-item" onClick={(e) => onClick(e)}>
+      <div className="file-title" key={file}>
+        {file}
       </div>
     </div>
   )

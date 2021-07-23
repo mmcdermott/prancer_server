@@ -49,32 +49,6 @@ export function getFile(id, textDir = null, annDir = null) {
         dispatch(getFileRequest());
         const file = get_file(id, textDir, annDir);
         return file;
-        // TODO(mmd): May be making it very slow...
-        // TODO: Look at how to get error messages back
-        return get_file(id, textDir, annDir)
-            .then(parseJSON)
-            .then(response => {
-                try {
-                    dispatch(getFileSuccess(response.token));
-                    // browserHistory.push('/annotation');
-                } catch (e) {
-                    alert(e);
-                    dispatch(getFileFailure({
-                        response: {
-                            status: 403,
-                            statusText: 'Invalid file fetch',
-                        },
-                    }));
-                }
-            })
-            .catch(error => {
-                dispatch(getFileFailure({
-                    response: {
-                        status: 403,
-                        statusText: 'Invalid file fetch',
-                    },
-                }));
-            });
     };
 }
 

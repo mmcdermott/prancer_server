@@ -21,7 +21,7 @@ function mapDispatchToProps(dispatch) {
 @connect(mapStateToProps, mapDispatchToProps)
 class TutorialAnnotation extends React.Component {
   render() {
-    const { params } = this.props;
+    const { match: { params } } = this.props;
     const fileId = params.fileId;
     const userId = params.userId;
 

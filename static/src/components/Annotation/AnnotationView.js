@@ -101,7 +101,7 @@ class AnnotationView extends React.Component {
   }
 
   async fetchData() {
-    const { getFile, params, tutorial } = this.props;
+    const { getFile, match: { params }, tutorial } = this.props;
     const fileId = params.fileId;
     const userId = params.userId;
 
@@ -352,7 +352,7 @@ class AnnotationView extends React.Component {
   }
 
   handleSaveAnnotations = () => {
-    const { params, tutorial } = this.props;
+    const { match: { params }, tutorial } = this.props;
     const { fileId, userId } = params;
 
     const dir = tutorial ? './tutorial/users/'+userId : null;
