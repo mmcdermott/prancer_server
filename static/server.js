@@ -1,17 +1,21 @@
 import { DEFAULT_PORT, SERVER_ADDRESS } from './constants.js';
 
-import * as http from 'http';
-import * as express from 'express';
+//import * as http from 'http';
+//import * as express from 'express';
+//import * as httpProxy from 'http-proxy';
+//import * as path from 'path';
 
-import * as httpProxy from 'http-proxy';
-//import pkg from 'http-proxy';
-//const {httpProxy} = pkg
+// Implement the old require function
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 
-import * as path from 'path';
-import * as register from '@babel/register'
-import * as polyfill from '@babel/polyfill'
+const http = require('http');
+const express = require('express');
+const httpProxy = require('http-proxy');
+const path = require('path');
 
-console.log(httpProxy)
+//import * from '@babel/register'
+//import * from '@babel/polyfill'
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -21,7 +25,7 @@ app.use(require('morgan')('short'));
 
 (function initWebpack() {
     const webpack = require('webpack');
-    const webpackConfig = require('./webpack/common.config');
+    const webpackConfig = require('./webpack/common.config.cjs');
 
     const compiler = webpack(webpackConfig);
 
