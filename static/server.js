@@ -8,7 +8,7 @@ import path from 'path';
 import morgan from 'morgan';
 
 import webpack  from 'webpack';
-import webpackConfig from './webpack/common.config.cjs';
+import webpackConfig from './webpack/common.config.js';
 import wdm from 'webpack-dev-middleware';
 import whm from 'webpack-hot-middleware';
 
