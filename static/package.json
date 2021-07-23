@@ -8,7 +8,7 @@
     "build": "webpack --progress --verbose --colors --display-error-details --config webpack/common.config.js",
     "build:production": "npm run clean && npm run build",
     "lint": "eslint src",
-    "start": "node --experimental-modules --es-module-specifier-resolution=node bin/server.js",
+    "start": "node --experimental-modules --experimental-specifier-resolution=node bin/server",
     "test": "karma start"
   },
   "repository": {
@@ -102,7 +102,6 @@
     "redux-thunk": "^2.3.0",
     "resolve-url-loader": "^4.0.0",
     "rimraf": "^3.0.2",
-    "sass-loader": "^12.1.0",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.2.1",
     "ts-loader": "9.2.3",
@@ -117,12 +116,12 @@
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/polyfill": "^7.12.1",
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.14.5",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@types/lodash": "^4.14.171",
+    "core-js": "^3.15.2",
     "json-loader": "^0.5.7",
     "list-react-files": "^0.2.0",
     "webpack-dev-server": "^3.11.2"

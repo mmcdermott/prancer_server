@@ -4,17 +4,17 @@ import React from 'react';
 import { Route } from 'react-router';
 
 /* containers */
-import { App } from './containers/App';
-import { HomeContainer } from './containers/HomeContainer';
-import { TutorialDoneContainer } from './containers/TutorialDoneContainer';
+import { App } from './containers/App/index.js';
+import { HomeContainer } from './containers/HomeContainer/index.js';
+import { TutorialDoneContainer } from './containers/TutorialDoneContainer/index.js';
 
 /* components */
-import AnnotationView from './components/Annotation/AnnotationView';
-import FilesViewer from './components/Files/FilesViewer';
-import NotFound from './components/NotFound';
-import TutorialView from './components/Tutorial/TutorialView';
-import TutorialAnnotation from './components/Tutorial/TutorialAnnotation';
-import TutorialExplanation from './components/Tutorial/TutorialExplanation';
+import AnnotationView from './components/Annotation/AnnotationView.js';
+import FilesViewer from './components/Files/FilesViewer.js';
+import NotFound from './components/NotFound.js';
+import TutorialView from './components/Tutorial/TutorialView.js';
+import TutorialAnnotation from './components/Tutorial/TutorialAnnotation.js';
+import TutorialExplanation from './components/Tutorial/TutorialExplanation.js';
 
 export default (
     <Route path="/" component={App}>

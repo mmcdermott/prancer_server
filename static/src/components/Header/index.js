@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
+
+import { createBrowserHistory } from 'history';
+const browserHistory = createBrowserHistory();
+
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import LeftNav from '@material-ui/core/Drawer';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { AccountCircle, ExitToApp } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar/index.js';
+import Button from '@material-ui/core/Button/index.js';
+import Alert from '@material-ui/lab/Alert/index.js';
+import Dialog from '@material-ui/core/Dialog/index.js';
+import DialogContentText from '@material-ui/core/DialogContentText/index.js';
+import DialogTitle from '@material-ui/core/DialogTitle/index.js';
+import DialogActions from '@material-ui/core/DialogActions/index.js';
+import DialogContent from '@material-ui/core/DialogContent/index.js';
+import Divider from '@material-ui/core/Divider/index.js';
+import LeftNav from '@material-ui/core/Drawer/index.js';
+import MenuItem from '@material-ui/core/MenuItem/index.js';
+import TextField from '@material-ui/core/TextField/index.js';
+import Toolbar from '@material-ui/core/Toolbar/index.js';
+import Typography from '@material-ui/core/Typography/index.js';
+import IconButton from '@material-ui/core/IconButton/index.js';
+import { AccountCircle, ExitToApp, Menu } from '@material-ui/icons/index.js';
 
 
 export class Header extends Component {
@@ -191,7 +193,7 @@ export class Header extends Component {
                 <AppBar position="static">
                   <Toolbar>
                     <IconButton className="menu-button" color="inherit" aria-label="Menu">
-                      <MenuIcon onClick={() => this.openNav()} />
+                      <Menu onClick={() => this.openNav()} />
                     </IconButton>
                     <Typography variant="title" color="inherit" className="flex">
                       Clinical Annotation

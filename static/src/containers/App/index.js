@@ -1,22 +1,20 @@
 import React from 'react';
 
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import indigo from '@material-ui/core/colors/indigo';
-import teal from '@material-ui/core/colors/teal';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/index.js';
+import { indigo, teal } from '@material-ui/core/colors/index.js';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions';
+import * as actionCreators from '../../actions/index.js';
 
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-} from '../../constants/index';
+} from '../../constants/index.js';
 
 /* application components */
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header/index.js';
+import { Footer } from '../../components/Footer/index.js';
 
 /* global styles for app */
 import './styles/app.scss';

@@ -152,7 +152,7 @@ class LabelController extends React.Component<LabelControllerProps, LabelControl
     clearTimeout(scrollTimeout)
     var { addLogEntryBound } = this.props
 
-    scrollTimeout = setTimeout(function() {
+    scrollTimeout = window.setTimeout(function() {
       addLogEntryBound(LOG_SCROLL, []);
     }, 1000)
   }

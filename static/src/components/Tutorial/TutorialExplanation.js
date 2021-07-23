@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { browserHistory } from 'react-router';
+import {createBrowserHistory} from 'history';
+const browserHistory = createBrowserHistory();
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import { NavigateNext } from '@material-ui/icons';
-import * as actionCreators from '../../actions';
-import TextController from '../Annotation/TextController';
-import TutorialEvaluationItem from './TutorialEvaluationItem';
-import { TUTORIAL_LENGTH } from '../../../constants';
+
+import Button from '@material-ui/core/Button/index.js';
+import { NavigateNext } from '@material-ui/icons/index.js';
+import * as actionCreators from '../../actions/index.js';
+import TextController from '../Annotation/TextController.tsx';
+import TutorialEvaluationItem from './TutorialEvaluationItem.tsx';
+import { TUTORIAL_LENGTH } from '../../../constants.js';
 
 
 function mapStateToProps(state) {

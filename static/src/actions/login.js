@@ -2,10 +2,10 @@ import {
     LOGIN_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { post_login, post_logout } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { post_login, post_logout } from '../utils/http_functions.js';
 
 export function loginSuccess(response) {
     return {

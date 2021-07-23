@@ -1,5 +1,5 @@
 import React from 'react';
-import { TUTORIAL_SLIDES_LINK } from '../../../constants';
+import { TUTORIAL_SLIDES_LINK } from '../../../constants.js';
 
 export const TutorialDone = () =>
   <section>

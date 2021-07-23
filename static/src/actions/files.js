@@ -11,10 +11,10 @@ import {
     SAVE_ANNOTATIONS_FAILURE,
     SAVE_ANNOTATIONS_REQUEST,
     SAVE_ANNOTATIONS_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { get_file, get_filenames, save_annotations } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { get_file, get_filenames, save_annotations } from '../utils/http_functions.js';
 
 export function getFileSuccess(token) {
     localStorage.setItem('token', token);

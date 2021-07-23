@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { browserHistory } from 'react-router';
+
+import {createBrowserHistory} from 'history';
+const browserHistory = createBrowserHistory();
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions';
-import FileListItem from './FileListItem';
+import * as actionCreators from '../../actions/index.js';
+import FileListItem from './FileListItem.tsx';
 
 function mapStateToProps(state) {
     return {

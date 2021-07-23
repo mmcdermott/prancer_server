@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { browserHistory } from 'react-router';
+import {createBrowserHistory} from 'history';
+const browserHistory = createBrowserHistory();
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import { NavigateNext } from '@material-ui/icons';
-import * as actionCreators from '../../actions';
-import AnnotationView from '../Annotation/AnnotationView';
+import Button from '@material-ui/core/Button/index.js';
+import { NavigateNext } from '@material-ui/icons/index.js';
+import * as actionCreators from '../../actions/index.js';
+import AnnotationView from '../Annotation/AnnotationView.js';
 
 
 function mapStateToProps(state) {
