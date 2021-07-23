@@ -1,4 +1,4 @@
-var fs = require('fs');
+import * as fs from 'fs';
 
 var babelrc = fs.readFileSync('./.babelrc');
 var config;
@@ -10,5 +10,7 @@ try {
   console.error(err);
 }
 
-require('babel-core/register')(config);
-require('../server');
+import * as babel from "@babel/core";
+babel(config)
+
+import * as server from '../server.js';

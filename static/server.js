@@ -1,4 +1,4 @@
-import { DEFAULT_PORT, SERVER_ADDRESS } from './constants';
+import { DEFAULT_PORT, SERVER_ADDRESS } from './constants.js';
 
 const http = require('http');
 const express = require('express');

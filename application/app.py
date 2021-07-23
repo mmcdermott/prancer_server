@@ -32,20 +32,17 @@ def login():
         user_id, password = request_email, request_password
 
         if StaticUser.is_valid(user_id, password):
-            print("Success: ", user_id, password)
             login_user(load_user(user_id))
             return jsonify(success=True)
         else:
-            print("Failure: ", user_id, password)
             return jsonify(success=False)
     else:
-        print("v4; invalid")
         return jsonify(success=False)
 
 @app.route('/api/logout', methods=['POST'])# TODO: is POST right?
 def logout():
     logout_user()
-    return
+    return jsonify(success=True)
 
 
 @app.route('/', methods=['GET'])

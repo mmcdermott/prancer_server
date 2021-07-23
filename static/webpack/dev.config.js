@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -27,7 +27,7 @@ module.exports = {
             },
             __DEVELOPMENT__: true,
         }),
-        new ExtractTextPlugin('bundle.css'),
+        new MiniCssExtractPlugin('bundle.css'),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
