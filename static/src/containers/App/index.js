@@ -7,11 +7,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index.js';
 
-import {
-    LOGIN_SUCCESS,
-    LOGOUT_SUCCESS,
-} from '../../constants/index.js';
-
 /* application components */
 import Header from '../../components/Header/index.js';
 
@@ -34,54 +29,22 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         super(props);
         this.state = {
           logged_in: false,
-          login_pending: false,
-          login_failure: false,
-          login_error: false
         };
     }
 
-    async do_login(email, password) {
+    do_login(email, password) {
         const { login } = this.props;
 
-        this.setState({ login_pending: true })
-
-        const login_promise = login(email, password)
-
-        console.log(login_promise)
-
-        login_promise.then(
-            login_result => {
-                console.log(login_result)
-                if (login_result.type == LOGIN_SUCCESS) {
-                  this.setState({
-                    login_pending: false, logged_in: true, login_failure: false, login_error: false
-                  })
-                } else {
-                  this.setState({
-                    login_pending: false, logged_in: false, login_failure: true, login_error: false
-                  })
-                }
-            }
-        ).catch(
-            err => {
-                console.log(err)
-                this.setState({
-                    login_pending: false, logged_in: false, login_failure: false, login_error: true 
-                })
-            }
-        )
+        return login(email, password)
     }
+
+    login_success() { this.setState({ logged_in: true }) }
+    logout_success() { this.setState({ logged_in: false }) }
 
     do_logout() {
         const { logout } = this.props;
 
-        const logout_result = logout()
-        if (logout_result.type == LOGOUT_SUCCESS) {
-            this.setState({ logged_in: false, login_failure: false, login_error: false, login_pending: false })
-            return true
-        } else {
-            return false
-        }
+        return logout()
     }
 
     render() {
@@ -105,11 +68,10 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
                 <section>
                     <Header
                       login={(username, password) => this.do_login(username, password)}
+                      login_success={() => this.login_success()}
                       logout={() => this.do_logout()}
+                      logout_success={() => this.logout_success()}
                       logged_in={this.state.logged_in}
-                      login_failure={this.state.login_failure}
-                      login_error={this.state.login_error}
-                      login_pending={this.state.login_pending}
                     />
                     <div
                       className="container"

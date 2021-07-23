@@ -53,6 +53,12 @@ const IconButton = IconButtonImport.default;
 
 import { AccountCircle, ExitToApp, Menu } from '@material-ui/icons/index.js';
 
+
+import {
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+} from '../../constants/index.js';
+
 function RoutingMenuItem(props) {
     let history = useHistory();
     const { route, children, onClick, disabled } = props;
@@ -75,6 +81,10 @@ export default class Header extends Component {
         this.state = {
             open: false,
             login_form_open: false,
+            login_pending: false,
+            login_failure: false,
+            login_error: false,
+            logout_error: false,
             email: '',
             password: '',
         };
@@ -92,19 +102,67 @@ export default class Header extends Component {
         e.preventDefault();
         e.stopPropagation();
         const { email, password } = this.state
-        this.props.login(email, password);
+        this.setState({ login_pending: true })
+
+        const login_promise = this.props.login(email, password);
+
+        login_promise.then(
+            login_result => {
+                console.log(login_result)
+                if (login_result.type == LOGIN_SUCCESS) {
+                  this.setState({
+                    login_pending: false, login_failure: false, login_error: false,
+                    login_form_open: false, password: ''
+                  })
+                  this.props.login_success()
+                } else {
+                  this.setState({
+                    login_pending: false, login_failure: true, login_error: false,
+                    login_form_open: true, password: ''
+                  })
+                }
+            }
+        ).catch(
+            err => {
+                console.log(err)
+                this.setState({
+                    login_pending: false, login_failure: false, login_error: true,
+                    login_form_open: true, password: ''
+                })
+            }
+        )
     }
 
 
     logout(e) {
         e.preventDefault();
-        const success = this.props.logout();
-        this.setState({
-            open: false,
-            login_form_open: false,
-            email: '',
-            password: '',
-        });
+        e.stopPropagation();
+        const logout_promise = this.props.logout();
+
+        logout_promise.then(
+          logout_result => {
+            if (logout_result.type == LOGOUT_SUCCESS) {
+                this.setState({
+                    open: false,
+                    login_form_open: false,
+                    login_pending: false,
+                    login_failure: false,
+                    login_error: false,
+                    logout_error: false,
+                    email: '',
+                    password: '',
+                });
+                this.props.logout_success()
+            } else {
+                this.setState({
+                    open: false,
+                    logout_error: true,
+                    email: '',
+                    password: '',
+                });
+            }
+          }
+        )
     }
 
     closeLoginForm() {
@@ -141,7 +199,7 @@ export default class Header extends Component {
     }
 
     renderLoginDialog() {
-      const { login_failure, login_pending, login_error } = this.props;
+      const { login_failure, login_pending, login_error } = this.state
       return (
         <Dialog
           open={this.state.login_form_open}
@@ -197,7 +255,7 @@ export default class Header extends Component {
           className="user-button"
           color="inherit"
           aria-label="Login"
-          onClick={() => this.logout()}
+          onClick={(e) => this.logout(e)}
           startIcon={<ExitToApp />}
         >
             Logout
@@ -206,8 +264,12 @@ export default class Header extends Component {
     }
 
     render() {
+        const { logout_error } = this.state
         return (
             <header>
+              { logout_error && (
+                <Alert severity="error" onClose={() => this.setState({ logout_error: false })}> Something went wrong with logout! </Alert>
+              ) }
               <LeftNav open={this.state.open} onClose={() => this.handleClickOutside()}>
                 <div>
                   <RoutingMenuItem
