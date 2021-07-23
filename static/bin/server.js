@@ -10,5 +10,5 @@ try {
   console.error(err);
 }
 
-import * as babel from "@babel/core";
-import * as server from '../server.js';
+import "@babel/core";
+import '../server.js';
