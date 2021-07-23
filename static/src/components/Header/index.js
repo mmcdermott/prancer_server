@@ -4,25 +4,56 @@ import { createBrowserHistory } from 'history';
 const browserHistory = createBrowserHistory();
 
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar/index.js';
-import Button from '@material-ui/core/Button/index.js';
-import Alert from '@material-ui/lab/Alert/index.js';
-import Dialog from '@material-ui/core/Dialog/index.js';
-import DialogContentText from '@material-ui/core/DialogContentText/index.js';
-import DialogTitle from '@material-ui/core/DialogTitle/index.js';
-import DialogActions from '@material-ui/core/DialogActions/index.js';
-import DialogContent from '@material-ui/core/DialogContent/index.js';
-import Divider from '@material-ui/core/Divider/index.js';
-import LeftNav from '@material-ui/core/Drawer/index.js';
-import MenuItem from '@material-ui/core/MenuItem/index.js';
-import TextField from '@material-ui/core/TextField/index.js';
-import Toolbar from '@material-ui/core/Toolbar/index.js';
-import Typography from '@material-ui/core/Typography/index.js';
-import IconButton from '@material-ui/core/IconButton/index.js';
+
+
+import AppBarImport from '@material-ui/core/AppBar/index.js';
+const AppBar = AppBarImport.default;
+
+import ButtonImport from '@material-ui/core/Button/index.js';
+const Button = ButtonImport.default;
+
+import AlertImport from '@material-ui/lab/Alert/index.js';
+const Alert = AlertImport.default;
+
+import DialogImport from '@material-ui/core/Dialog/index.js';
+const Dialog = DialogImport.default;
+
+import DialogContentTextImport from '@material-ui/core/DialogContentText/index.js';
+const DialogContentText = DialogContentTextImport.default;
+
+import DialogTitleImport from '@material-ui/core/DialogTitle/index.js';
+const DialogTitle = DialogTitleImport.default;
+
+import DialogActionsImport from '@material-ui/core/DialogActions/index.js';
+const DialogActions = DialogActionsImport.default;
+
+import DialogContentImport from '@material-ui/core/DialogContent/index.js';
+const DialogContent = DialogContentImport.default;
+
+import DividerImport from '@material-ui/core/Divider/index.js';
+const Divider = DividerImport.default;
+
+import LeftNavImport from '@material-ui/core/Drawer/index.js';
+const LeftNav = LeftNavImport.default;
+
+import MenuItemImport from '@material-ui/core/MenuItem/index.js';
+const MenuItem = MenuItemImport.default;
+
+import TextFieldImport from '@material-ui/core/TextField/index.js';
+const TextField = TextFieldImport.default;
+
+import ToolbarImport from '@material-ui/core/Toolbar/index.js';
+const Toolbar = ToolbarImport.default;
+
+import TypographyImport from '@material-ui/core/Typography/index.js';
+const Typography = TypographyImport.default;
+
+import IconButtonImport from '@material-ui/core/IconButton/index.js';
+const IconButton = IconButtonImport.default;
+
 import { AccountCircle, ExitToApp, Menu } from '@material-ui/icons/index.js';
 
-
-export class Header extends Component {
+export default class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -192,10 +223,15 @@ export class Header extends Component {
                 </LeftNav>
                 <AppBar position="static">
                   <Toolbar>
-                    <IconButton className="menu-button" color="inherit" aria-label="Menu">
-                      <Menu onClick={() => this.openNav()} />
+                    <IconButton
+                      className="menu-button"
+                      color="inherit"
+                      aria-label="Menu"
+                      onClick={() => this.openNav()}
+                    >
+                      <Menu  />
                     </IconButton>
-                    <Typography variant="title" color="inherit" className="flex">
+                    <Typography variant="h1" color="inherit" className="flex">
                       Clinical Annotation
                     </Typography>
                     { this.props.logged_in ? this.renderLogoutButton() : this.renderLoginButton() }
@@ -203,7 +239,6 @@ export class Header extends Component {
                 </AppBar>
                 { this.renderLoginDialog() }
             </header>
-
         );
     }
 }

@@ -17,16 +17,18 @@ import TutorialAnnotation from './components/Tutorial/TutorialAnnotation.js';
 import TutorialExplanation from './components/Tutorial/TutorialExplanation.js';
 
 export default (
-    <Route path="/" component={App}>
-        <Route path="main" component={HomeContainer} />
-        <Route path="home" component={HomeContainer} />
-        <Route path="filesView" component={FilesViewer} />
-        <Route path="annotation" component={AnnotationView} />
-        <Route path="annotation/:fileId" component={AnnotationView} />
-        <Route path="tutorial" component={TutorialView} />
-        <Route path="tutorial/done" component={TutorialDoneContainer} />
-        <Route path="tutorial/:userId/:fileId" component={TutorialAnnotation} />
-        <Route path="tutorial/explanation/:userId/:fileId" component={TutorialExplanation} />
-        <Route path="*" component={NotFound} />
+    <Route path="/">
+        <App>
+            <Route path="main" component={HomeContainer} />
+            <Route path="home" component={HomeContainer} />
+            <Route path="filesView" component={FilesViewer} />
+            <Route path="annotation" component={AnnotationView} />
+            <Route path="annotation/:fileId" component={AnnotationView} />
+            <Route path="tutorial" component={TutorialView} />
+            <Route path="tutorial/done" component={TutorialDoneContainer} />
+            <Route path="tutorial/:userId/:fileId" component={TutorialAnnotation} />
+            <Route path="tutorial/explanation/:userId/:fileId" component={TutorialExplanation} />
+            <Route path="*" component={NotFound} />
+        </App>
     </Route>
 );

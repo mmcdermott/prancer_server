@@ -17,12 +17,10 @@ export default function configureStore(initialState) {
         applyMiddleware(thunkMiddleware, ...debugware)
     );
 
-    if (module.hot) {
+    if (import.meta.hot) {
         // Enable Webpack hot module replacement for reducers
-        module.hot.accept('../reducers', () => {
-            const nextRootReducer = require('../reducers/index').default;
-
-            store.replaceReducer(nextRootReducer);
+        import.meta.hot.accept('../reducers', ({module, deps}) => {
+            store.replaceReducer(module);
         });
     }
 

@@ -58,6 +58,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withTheme
 class AnnotationView extends React.Component {
   constructor(props) {
     super(props);
@@ -533,4 +534,4 @@ class AnnotationView extends React.Component {
   }
 }
 
-export default withTheme()(AnnotationView);
+export default AnnotationView;

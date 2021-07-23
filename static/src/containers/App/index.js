@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles/index.js';
+import { createTheme, MuiThemeProvider } from '@material-ui/core/styles/index.js';
 import { indigo, teal } from '@material-ui/core/colors/index.js';
 
 import { bindActionCreators } from 'redux';
@@ -13,7 +13,8 @@ import {
 } from '../../constants/index.js';
 
 /* application components */
-import { Header } from '../../components/Header/index.js';
+import Header from '../../components/Header/index.js';
+
 import { Footer } from '../../components/Footer/index.js';
 
 /* global styles for app */
@@ -79,7 +80,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         };
 
         return (
-            <MuiThemeProvider theme={createMuiTheme(theme)}>
+            <MuiThemeProvider theme={createTheme(theme)}>
                 <section>
                     <Header
                       login={(username, password) => this.do_login(username, password)}

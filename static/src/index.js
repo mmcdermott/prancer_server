@@ -12,8 +12,7 @@ import configureStore from './store/configureStore.js';
 import routes from './routes.js';
 import './style.scss';
 
-require('expose?$!expose?jQuery!jquery');
-require('bootstrap-webpack');
+// import 'expose?$!expose?jQuery!jquery';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
