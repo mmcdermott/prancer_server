@@ -3,6 +3,8 @@ import autoprefixer from 'autoprefixer';
 import postcssImport from 'postcss-import';
 import { merge } from 'webpack-merge';
 
+import precss from 'precss';
+
 import development from './dev.config';
 import production from './prod.config';
 
@@ -48,18 +50,16 @@ const common = {
     module: {
         rules: [
             {
-              test: /\.s[ac]ss$/i,
-              use: [
-                // Creates `style` nodes from JS strings
-                "style-loader",
-                // Translates CSS into CommonJS
-                "css-loader",
-                // Compiles Sass to CSS
-                "sass-loader",
-              ],
-            }, {
-                test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                test: /\.(scss)$/,
+                use: [{
+                    loader: 'style-loader', // inject CSS to page
+                }, {
+                    loader: 'css-loader', // translates CSS into CommonJS modules
+                }, {
+                    loader: 'postcss-loader', // Run post css actions
+                }, {
+                    loader: 'sass-loader' // compiles Sass to CSS
+                }]
             }, {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
                 use: 'url?limit=10000&mimetype=application/font-woff',

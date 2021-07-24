@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 :global(body) {
   position: relative;
 }
@@ -79,7 +81,6 @@
 }
 
 .text-controller {
-  position: absolute;
   margin: 20px 0 0;
   padding: 50px 25px 25px;
   background-color: #f9f9f9;
@@ -177,7 +178,7 @@
 }
 
 .selection-main {
-  width: calc(100% - 48px);
+  width: 80%;
   padding: 0 20px;
   display: flex;
   float: left;
