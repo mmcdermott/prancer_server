@@ -52,3 +52,7 @@ export const ADD_LOG_SUCCESS = 'ADD_LOG_SUCCESS';
 export const ADD_LOG_FAILURE = 'ADD_LOG_FAILURE';
 export const ADD_LOG_REQUEST = 'ADD_LOG_REQUEST';
 export const ADD_LOG = 'ADD_LOG';
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';

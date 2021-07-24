@@ -49,6 +49,7 @@ export function getFile(id, textDir = null, annDir = null) {
         dispatch(getFileRequest());
         const file = get_file(id, textDir, annDir);
         return file;
+        // TODO(mmd): May be making it very slow...
         // TODO: Look at how to get error messages back
         return get_file(id, textDir, annDir)
             .then(parseJSON)

@@ -20,7 +20,13 @@ export function createReducer(initialState, reducerMap) {
 
 
 export function parseJSON(response) {
-    return response.data;
+    try {
+        return response.data;
+    } catch (e) {
+        console.log(response);
+        console.log(e);
+        return response.data;
+    }
 }
 
 export function validateEmail(email) {
