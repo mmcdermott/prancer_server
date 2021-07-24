@@ -10,6 +10,10 @@ import * as actionCreators from '../../actions/index.js';
 /* application components */
 import Header from '../../components/Header/index.js';
 
+import {
+    LOGIN_CHECK_SUCCESS,
+} from '../../constants/index.js';
+
 import { Footer } from '../../components/Footer/index.js';
 
 /* global styles for app */
@@ -30,6 +34,26 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         this.state = {
           logged_in: false,
         };
+        this.check_login_status()
+    }
+
+    check_login_status() {
+        const { loginCheck } = this.props;
+
+        loginCheck().then(
+          response => {
+            if (response.type == LOGIN_CHECK_SUCCESS) {
+              this.login_success()
+            } else {
+              this.logout_success()
+            }
+          }
+        ).catch(
+            err => {
+                console.log(err)
+                this.logout_success()
+            }
+        )
     }
 
     do_login(email, password) {
@@ -39,7 +63,9 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     }
 
     login_success() { this.setState({ logged_in: true }) }
-    logout_success() { this.setState({ logged_in: false }) }
+    logout_success() {
+        this.setState({ logged_in: false })
+    }
 
     do_logout() {
         const { logout } = this.props;

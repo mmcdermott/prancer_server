@@ -2,13 +2,16 @@ import {
     LOGIN_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
+    LOGIN_CHECK_FAILURE,
+    LOGIN_CHECK_REQUEST,
+    LOGIN_CHECK_SUCCESS,
     LOGOUT_FAILURE,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
 } from '../constants/index.js';
 
 import { parseJSON } from '../utils/misc.js';
-import { post_login, post_logout } from '../utils/http_functions.js';
+import { post_login, post_logout, check_login_status } from '../utils/http_functions.js';
 
 export function loginSuccess(response) {
     return {
@@ -112,6 +115,50 @@ export function logout() {
                     response: {
                         status: 403,
                         statusText: 'Invalid logout',
+                    },
+                }));
+            });
+    };
+}
+
+export function loginCheckSuccess(response) {
+    return {
+        type: LOGIN_CHECK_SUCCESS,
+        payload: {
+        },
+    };
+}
+
+export function loginCheckFailure(response) {
+    return {
+        type: LOGIN_CHECK_FAILURE,
+        payload: {
+        },
+    };
+}
+
+export function loginCheckRequest() {
+    return {
+        type: LOGIN_CHECK_REQUEST,
+    };
+}
+
+
+export function loginCheck(email, password) {
+    return function (dispatch) {
+        dispatch(loginCheckRequest())
+        return check_login_status(email, password)
+            .then(parseJSON)
+            .then(response => {
+                const out = response.isLoggedIn ? loginCheckSuccess(response) : loginCheckFailure(response);
+                dispatch(out);
+                return out;
+            })
+            .catch(error => {
+                dispatch(loginCheckFailure({
+                    response: {
+                        status: 403,
+                        statusText: 'Something went wrong!',
                     },
                 }));
             });

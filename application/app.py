@@ -1,5 +1,5 @@
 from flask import abort, request, render_template, jsonify, url_for, redirect, g
-from flask_login import login_required, LoginManager, login_user, logout_user
+from flask_login import login_required, LoginManager, login_user, logout_user, current_user
 from wtforms import Form, TextField, PasswordField, validators
 
 from index import app
@@ -22,6 +22,10 @@ def load_user(user_id: str):
 class LoginForm(Form):
     email = TextField('E-mail', [validators.Required(), validators.Length(min=4, max=25)])
     password = PasswordField('Password', [validators.Required(), validators.Length(min=6, max=200)])
+
+@app.route('/api/check_login', methods=['GET'])
+def check_login():
+    return jsonify(isLoggedIn = current_user.is_authenticated)
 
 @app.route('/api/login', methods=['POST'])
 def login():
