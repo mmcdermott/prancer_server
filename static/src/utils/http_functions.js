@@ -53,3 +53,7 @@ export function post_login(email, password) {
 export function post_logout() {
   return axios.post('/api/logout', { });
 }
+
+export function check_login_status() {
+  return axios.get('/api/check_login');
+}

@@ -108,7 +108,6 @@ export default class Header extends Component {
 
         login_promise.then(
             login_result => {
-                console.log(login_result)
                 if (login_result.type == LOGIN_SUCCESS) {
                   this.setState({
                     login_pending: false, login_failure: false, login_error: false,
