@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {createBrowserHistory} from 'history';
-const browserHistory = createBrowserHistory();
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button/index.js';
+
 import { NavigateNext } from '@material-ui/icons/index.js';
 import * as actionCreators from '../../actions/index.js';
 import AnnotationView from '../Annotation/AnnotationView.js';
+import NextButton from './NextButton.js'
 
 
 function mapStateToProps(state) {
@@ -33,19 +33,10 @@ class TutorialAnnotation extends React.Component {
           height: 'calc(100% - 200px)',
           padding: 0
         }}>
-          <AnnotationView params={params} tutorial={true} />
+          <AnnotationView match={{params: params}} tutorial={true} />
         </div>
 
-        <div className="next-button">
-          <Button
-            className='hover-state'
-            variant={'contained'}
-            onClick={() => browserHistory.push(`/tutorial/explanation/${userId}/${fileId}`)}
-            color="primary"
-          >
-            Next <NavigateNext />
-          </Button>
-        </div>
+        <NextButton onSubmit={() => ({success: true, route: `/tutorial/explanation/${userId}/${fileId}`})} />
       </div>
     );
   }
