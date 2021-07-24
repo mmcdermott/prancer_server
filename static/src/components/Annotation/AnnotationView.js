@@ -472,13 +472,11 @@ class AnnotationView extends React.Component {
 
     return (
       <div className="annotation-view" ref={this.setRootRef} onClick={(e) => e.preventDefault()}>
-        <div style={{
+        <div className="row" style={{
           height: 'calc(100% - 250px)',
-          padding: 0
         }}>
           <div className="col-md-8" style={{
             height: '100%',
-            padding: 0
           }}>
             <TextController
               text={this.state.text}
@@ -494,7 +492,6 @@ class AnnotationView extends React.Component {
           </div>
           <div className="col-md-4" style={{
             height: '100%',
-            padding: 0
           }}>
             <LabelController
               selectedText={this.state.selectedText}
@@ -514,7 +511,7 @@ class AnnotationView extends React.Component {
             />
           </div>
         </div>
-        <div style={{ height: 100 }}>
+        <div className="row" style={{ height: '100%' }}>
           <Selection
             selectedText={this.state.selectedText}
             selectedLabels={this.state.selectedLabels}
