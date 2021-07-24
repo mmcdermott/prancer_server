@@ -1,13 +1,15 @@
 import React from 'react';
-import {createBrowserHistory} from 'history';
-const browserHistory = createBrowserHistory();
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button/index.js';
-import TextField from '@material-ui/core/TextField/index.js';
-import { NavigateNext } from '@material-ui/icons/index.js';
+
+import TextFieldImport from '@material-ui/core/TextField/index.js';
+const TextField = TextFieldImport.default;
+
 import * as actionCreators from '../../actions/index.js';
 import { TUTORIAL_SLIDES_LINK } from '../../../constants.js';
+
+import NextButton from './NextButton.js'
 
 function mapStateToProps(state) {
     return {};
@@ -47,7 +49,7 @@ class TutorialView extends React.Component {
 
     if (this.validateUserId(userId)) {
       this.props.startTutorial(userId)
-      browserHistory.push(`/tutorial/${userId}/1`)
+      return {success: true, route: `/tutorial/${userId}/1`}
     }
   }
 
@@ -80,23 +82,13 @@ class TutorialView extends React.Component {
               id="userId-input"
               label="User ID"
               margin="normal"
-              errorText={this.state.errorText}
+              helperText={this.state.errorText}
               value={this.state.userId}
               onChange={this.handleChange}
             />
           </div>
 
-          <div className="next-button">
-            <Button
-              className='hover-state'
-              variant={'contained'}
-              onClick={this.handleSubmit}
-              color="primary"
-            >
-              Next <NavigateNext />
-            </Button>
-          </div>
-
+          <NextButton onSubmit={() => this.handleSubmit()} />
         </div>
       </section>
     );
