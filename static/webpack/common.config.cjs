@@ -1,18 +1,12 @@
-import path from 'path';
-import autoprefixer from 'autoprefixer';
-import postcssImport from 'postcss-import';
-import { merge } from 'webpack-merge';
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const postcssImport = require('postcss-import');
+const { merge } = require('webpack-merge');
 
-import development from './dev.config';
-import production from './prod.config';
+const development = require('./dev.config.cjs');
+const production = require('./prod.config.cjs');
 
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-import fs from 'fs'
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -35,7 +29,7 @@ const common = {
     },
 
     externals: {
-      fs: fs,
+      fs: require('fs'),
     },
 
     resolve: {
@@ -105,11 +99,8 @@ const common = {
     },
 };
 
-let merged;
 if (TARGET === 'start' || !TARGET) {
-    merged = merge(development, common);
+    module.exports = merge(development, common);
 } else if (TARGET === 'build' || !TARGET) {
-    merged = merge(production, common);
+    module.exports = merge(production, common);
 }
-
-export default merged;

@@ -3,10 +3,10 @@ import {
     ADD_LOG_FAILURE,
     ADD_LOG_REQUEST,
     ADD_LOG_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { add_log_entry } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { add_log_entry } from '../utils/http_functions.js';
 
 export function addLogSuccess(token) {
     localStorage.setItem('token', token);

@@ -3,10 +3,10 @@ import {
     GET_UMLS_INFO_FAILURE,
     GET_UMLS_INFO_REQUEST,
     GET_UMLS_INFO_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { get_umls_info } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { get_umls_info } from '../utils/http_functions.js';
 
 export function getUMLSInfoSuccess(token) {
     localStorage.setItem('token', token);

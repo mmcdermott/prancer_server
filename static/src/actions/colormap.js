@@ -3,10 +3,10 @@ import {
     GET_COLOR_MAP_FAILURE,
     GET_COLOR_MAP_REQUEST,
     GET_COLOR_MAP_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { get_colormap } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { get_colormap } from '../utils/http_functions.js';
 
 export function getColormapSuccess(token) {
     localStorage.setItem('token', token);

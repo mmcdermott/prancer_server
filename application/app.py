@@ -1,5 +1,5 @@
 from flask import abort, request, render_template, jsonify, url_for, redirect, g
-from flask_login import login_required, LoginManager, login_user, logout_user
+from flask_login import login_required, LoginManager, login_user, logout_user, current_user
 from wtforms import Form, TextField, PasswordField, validators
 
 from index import app
@@ -23,6 +23,10 @@ class LoginForm(Form):
     email = TextField('E-mail', [validators.Required(), validators.Length(min=4, max=25)])
     password = PasswordField('Password', [validators.Required(), validators.Length(min=6, max=200)])
 
+@app.route('/api/check_login', methods=['GET'])
+def check_login():
+    return jsonify(isLoggedIn = current_user.is_authenticated)
+
 @app.route('/api/login', methods=['POST'])
 def login():
     request_email = request.json['form']['email']
@@ -32,20 +36,17 @@ def login():
         user_id, password = request_email, request_password
 
         if StaticUser.is_valid(user_id, password):
-            print("Success: ", user_id, password)
             login_user(load_user(user_id))
             return jsonify(success=True)
         else:
-            print("Failure: ", user_id, password)
             return jsonify(success=False)
     else:
-        print("v4; invalid")
         return jsonify(success=False)
 
 @app.route('/api/logout', methods=['POST'])# TODO: is POST right?
 def logout():
     logout_user()
-    return
+    return jsonify(success=True)
 
 
 @app.route('/', methods=['GET'])

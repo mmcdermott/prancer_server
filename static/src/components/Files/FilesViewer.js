@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { browserHistory } from 'react-router';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions';
-import FileListItem from './FileListItem';
+import * as actionCreators from '../../actions/index.js';
+import FileListItem from './FileListItem.tsx';
+
+import { useHistory } from "react-router-dom"
 
 function mapStateToProps(state) {
     return {
@@ -43,7 +45,7 @@ class FilesViewer extends React.Component {
         <h1>Available Files</h1>
 
         <div className="files-list">
-          {this.state.files.map(file => <FileListItem key={file} file={file} onClick={() => browserHistory.push(`/annotation/${file}`)} />)}
+          {this.state.files.map(file => <FileListItem key={file} file={file} useHistory={ useHistory }/>)}
         </div>
       </div>
     );

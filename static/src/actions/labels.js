@@ -7,10 +7,10 @@ import {
     SEARCH_LABELS_FAILURE,
     SEARCH_LABELS_REQUEST,
     SEARCH_LABELS_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
-import { parseJSON } from '../utils/misc';
-import { recommend_labels, search_labels } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { recommend_labels, search_labels } from '../utils/http_functions.js';
 
 export function recommendLabelsSuccess(token) {
     localStorage.setItem('token', token);

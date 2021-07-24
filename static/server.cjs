@@ -1,35 +1,29 @@
-import { DEFAULT_PORT, SERVER_ADDRESS } from './constants.js';
+const { DEFAULT_PORT, SERVER_ADDRESS } = require('./constants.js');
 
-import http from 'http';
-import express from 'express';
-import httpProxy from 'http-proxy';
-import path from 'path';
-
-import morgan from 'morgan';
-
-import webpack  from 'webpack';
-import webpackConfig from './webpack/common.config.js';
-import wdm from 'webpack-dev-middleware';
-import whm from 'webpack-hot-middleware';
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const http = require('http');
+const express = require('express');
+const httpProxy = require('http-proxy');
+const path = require('path');
+//import * from '@babel/register'
+//import * from '@babel/polyfill'
 
 const proxy = httpProxy.createProxyServer({});
 
 const app = express();
 
-app.use(morgan('short'));
+app.use(require('morgan')('short'));
 
 (function initWebpack() {
+    const webpack = require('webpack');
+    const webpackConfig = require('./webpack/common.config');
+
     const compiler = webpack(webpackConfig);
 
-    app.use(wdm(compiler, {
-        publicPath: webpackConfig.output.publicPath,
+    app.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true, publicPath: webpackConfig.output.publicPath,
     }));
 
-    app.use(whm(compiler, {
+    app.use(require('webpack-hot-middleware')(compiler, {
         log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000,
     }));
 

@@ -11,11 +11,11 @@ import {
     START_TUTORIAL_FAILURE,
     START_TUTORIAL_REQUEST,
     START_TUTORIAL_SUCCESS,
-} from '../constants/index';
+} from '../constants/index.js';
 
 
-import { parseJSON } from '../utils/misc';
-import { get_tutorial_evaluation, restart_tutorial, start_tutorial } from '../utils/http_functions';
+import { parseJSON } from '../utils/misc.js';
+import { get_tutorial_evaluation, restart_tutorial, start_tutorial } from '../utils/http_functions.js';
 
 
 export function startTutorialSuccess(token) {

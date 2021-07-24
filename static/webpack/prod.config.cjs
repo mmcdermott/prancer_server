@@ -1,6 +1,6 @@
-import webpack from 'webpack';
+const webpack = require('webpack');
 
-export default {
+module.exports = {
     mode: 'production',
     devtool: 'source-map',
 

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import { withTheme } from '@material-ui/core/styles';
-import * as actionCreators from '../../actions';
-import TextController from './TextController'
-import LabelController from './LabelController';
-import Selection from './Selection';
-import PauseModal from './PauseModal';
+import { Button } from '@material-ui/core/Button/index.js';
+import { withTheme } from '@material-ui/core/styles/index.js';
+import * as actionCreators from '../../actions/index.js';
+import TextController from './TextController.tsx'
+import LabelController from './LabelController.tsx';
+import Selection from './Selection.tsx';
+import PauseModal from './PauseModal.tsx';
 import {
   createAnnotation,
   createAnnotationFromToken,
@@ -18,7 +18,7 @@ import {
   nMostCommonLabels,
   selectionIsEmpty,
   propagateSuggestions
-} from './utils';
+} from './utils/index.ts';
 import {
   CUI_NORMAL,
   CUI_AMBIGUOUS,
@@ -44,10 +44,10 @@ import {
   ACCEPTED,
   ACCEPTED_WITH_NEGATION,
   ACCEPTED_WITH_UNCERTAINTY
-} from './types';
+} from './types.ts';
 import {
   DYNAMIC_SUGGESTIONS_ENABLED
-} from '../../../constants';
+} from '../../../constants.js';
 
 function mapStateToProps(state) {
     return {};
@@ -58,6 +58,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withTheme
 class AnnotationView extends React.Component {
   constructor(props) {
     super(props);
@@ -100,7 +101,7 @@ class AnnotationView extends React.Component {
   }
 
   async fetchData() {
-    const { getFile, params, tutorial } = this.props;
+    const { getFile, match: { params }, tutorial } = this.props;
     const fileId = params.fileId;
     const userId = params.userId;
 
@@ -351,7 +352,7 @@ class AnnotationView extends React.Component {
   }
 
   handleSaveAnnotations = () => {
-    const { params, tutorial } = this.props;
+    const { match: { params }, tutorial } = this.props;
     const { fileId, userId } = params;
 
     const dir = tutorial ? './tutorial/users/'+userId : null;
@@ -533,4 +534,4 @@ class AnnotationView extends React.Component {
   }
 }
 
-export default withTheme()(AnnotationView);
+export default AnnotationView;

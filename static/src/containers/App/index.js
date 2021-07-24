@@ -1,23 +1,20 @@
 import React from 'react';
 
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import indigo from '@material-ui/core/colors/indigo';
-import teal from '@material-ui/core/colors/teal';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles/index.js';
+import { indigo, teal } from '@material-ui/core/colors/index.js';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions';
-
-import {
-    LOGIN_FAILURE,
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-} from '../../constants/index';
+import * as actionCreators from '../../actions/index.js';
 
 /* application components */
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import Header from '../../components/Header/index.js';
+
+import {
+    LOGIN_CHECK_SUCCESS,
+} from '../../constants/index.js';
+
+import { Footer } from '../../components/Footer/index.js';
 
 /* global styles for app */
 import './styles/app.scss';
@@ -32,18 +29,48 @@ function mapDispatchToProps(dispatch) {
 
 @connect(mapStateToProps, mapDispatchToProps)
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+    constructor(props) {
+        super(props);
+        this.state = {
+          logged_in: false,
+        };
+        this.check_login_status()
+    }
+
+    check_login_status() {
+        const { loginCheck } = this.props;
+
+        loginCheck().then(
+          response => {
+            if (response.type == LOGIN_CHECK_SUCCESS) {
+              this.login_success()
+            } else {
+              this.logout_success()
+            }
+          }
+        ).catch(
+            err => {
+                console.log(err)
+                this.logout_success()
+            }
+        )
+    }
+
     do_login(email, password) {
         const { login } = this.props;
 
-        const login_result = login(email, password)
+        return login(email, password)
+    }
 
-        if (login_result.type == LOGIN_SUCCESS) {
-            this.setState({ logged_in: true })
-            return true
-        } else {
-            this.setState({ logged_in: false })
-            return false
-        }
+    login_success() { this.setState({ logged_in: true }) }
+    logout_success() {
+        this.setState({ logged_in: false })
+    }
+
+    do_logout() {
+        const { logout } = this.props;
+
+        return logout()
     }
 
     render() {
@@ -62,9 +89,16 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         };
 
         return (
-            <MuiThemeProvider theme={createMuiTheme(theme)}>
+          <div>
+            <ThemeProvider theme={createTheme(theme)}>
                 <section>
-                    <Header login={(username, password) => this.do_login(username, password)} />
+                    <Header
+                      login={(username, password) => this.do_login(username, password)}
+                      login_success={() => this.login_success()}
+                      logout={() => this.do_logout()}
+                      logout_success={() => this.logout_success()}
+                      logged_in={this.state.logged_in}
+                    />
                     <div
                       className="container"
                       style={{ marginTop: 10, paddingBottom: 20 }}
@@ -75,7 +109,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
                         <Footer />
                     </div>
                 </section>
-            </MuiThemeProvider>
+            </ThemeProvider>
+          </div>
         );
     }
 }
