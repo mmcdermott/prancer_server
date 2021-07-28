@@ -27,4 +27,4 @@ handlers:
   script: auto
 
 env_variables:
-  UMLS_API_KEY: "SET_SECURELY"
+  UMLS_APIKEY: "SET_SECURELY"
