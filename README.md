@@ -2,6 +2,8 @@
 
 PRAnCER (Platform enabling Rapid Annotation for Clinical Entity Recognition) is a web platform that enables the rapid annotation of medical terms within clinical notes. A user can highlight spans of text and quickly map them to concepts in large vocabularies within a single, intuitive platform. Users can use the search and recommendation features to find labels without ever needing to leave the interface. Further, the platform can take in output from existing clinical concept extraction systems as pre-annotations, which users can accept or modify in a single click. These features allow users to focus their time and energy on harder examples instead. 
 
+app-template.yaml -> app.yaml for gcloud deployment. Set your proper `UMLS_API_KEY` prior to deployment.
+
 ## Usage
 ### Installation Instructions
 Detailed installation instructions are provided below; PRAnCER can operate on Mac, Windows, and Linux machines.
