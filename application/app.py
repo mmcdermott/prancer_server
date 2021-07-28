@@ -1,4 +1,5 @@
 from flask import abort, request, render_template, jsonify, url_for, redirect, g
+from flask_cors import CORS
 from flask_login import login_required, LoginManager, login_user, logout_user, current_user
 from wtforms import Form, TextField, PasswordField, validators
 
@@ -12,6 +13,8 @@ from .utils.log import add_log
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @login_manager.user_loader
 def load_user(user_id: str):
