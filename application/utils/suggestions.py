@@ -22,7 +22,6 @@ def suggest_mapped_annotations(text):
     for keyword in suggestions:
         labels = suggestions[keyword]
         annotations += keyword_annotations(text, keyword, labels, 'high')
-    print(annotations)
     return annotations
 
 
@@ -61,11 +60,8 @@ def create_annotation(text, span, labels, confidence):
 
 ## Only creates a suggestion for a single code
 def create_labels(codes, confidence):
-    print(codes, type(codes), confidence)
     if len(codes) > 0 and codes[0] in cui2index:
-        print("inside here")
         data = label_data(cui2index[codes[0]])
-        print(data)
         return [{
             "labelId": data[0],
             "title": data[1],

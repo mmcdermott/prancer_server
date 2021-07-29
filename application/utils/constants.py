@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 
 ## LOCAL FILEPATHS ##
 
-FILES_DIRECTORY = "./data"                     # Annotation text files and saved annotations
+FILES_DIRECTORY = Path("data")                     # Annotation text files and saved annotations
 
 LABELS_FILE = "./clinical-annotator-lookups/umls_lookup_snomed.pk"       # Map keyword -> UMLS code
 INDEX_FILE = "./clinical-annotator-lookups/index_snomed.pk"              # Map UMLS code -> index
@@ -11,7 +12,7 @@ COLORS_FILE = "./clinical-annotator-lookups/color_lookup.pk"             # Map t
 SUGGESTIONS_FILE = "./clinical-annotator-lookups/suggestions.pk"       # Map word -> CUI
 
 
-LOG_DIRECTORY = "./data/log"                   # Logs of actions
+LOG_DIRECTORY = "./log"                   # Logs of actions
 
 SOURCES_FILE = './umls_sources.csv'            # List of UMLS defn sources
 
@@ -29,3 +30,13 @@ UMLS_URI = "https://uts-ws.nlm.nih.gov"              # URI to make UMLS API call
 
 # Options for pre-filled suggestions are "NONE", "CSV", and "MAP"
 SUGGESTION_METHOD = os.environ.get("SUGGESTION_METHOD", "CSV")
+
+# Storage Options
+LOCAL = "LOCAL"
+GOOGLE_CLOUD_BUCKET = "GOOGLE_CLOUD_BUCKET"
+STORAGE_DEST = os.environ.get("STORAGE_DEST", LOCAL)
+if STORAGE_DEST == GOOGLE_CLOUD_BUCKET:
+    assert 'BUCKET_NAME' in os.environ
+else: assert STORAGE_DEST == LOCAL
+
+BUCKET_NAME = os.environ.get("BUCKET_NAME", '')

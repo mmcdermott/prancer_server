@@ -17,3 +17,6 @@
 __pycache__/
 # Ignored by the build system
 /setup.cfg
+
+# Ignore data, which is used for local runs to store annotation files.
+data
