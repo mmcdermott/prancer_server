@@ -13,18 +13,16 @@
 # limitations under the License.
 
 runtime: python39
+service: server
 
 handlers:
-  # This configures Google App Engine to serve the files in the app's static
-  # directory.
-- url: /static
-  static_dir: static
-
-  # This handler routes all requests not caught above to your main app. It is
-  # required when static routes are defined, but can be omitted (along with
-  # the entire handlers section) when there are no static files defined.
 - url: /.*
   script: auto
 
+instance_class: "F4_1G"
+
 env_variables:
-  UMLS_APIKEY: "SET_SECURELY"
+  UMLS_APIKEY: "SET API KEY"
+  CLIENT_ORIGIN: "SET CLIENT ORIGIN"
+
+entrypoint: gunicorn -w 1 main:app --preload

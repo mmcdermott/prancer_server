@@ -1,3 +1,4 @@
+import os
 from flask import abort, request, render_template, jsonify, url_for, redirect, g
 from flask_cors import CORS
 from flask_login import login_required, LoginManager, login_user, logout_user, current_user
@@ -14,7 +15,17 @@ from .utils.log import add_log
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config.update(
+    SESSION_COOKIE_SECURE   = True,
+    SESSION_COOKIE_SAMESITE = 'None'
+)
+
+CORS(
+    app,
+    resources='/api/.*',
+    origins=[os.environ.get('CLIENT_ORIGIN', 'http://localhost:3000')],
+    supports_credentials=True,
+)
 
 @login_manager.user_loader
 def load_user(user_id: str):
