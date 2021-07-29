@@ -24,5 +24,7 @@ instance_class: "F4_1G"
 env_variables:
   UMLS_APIKEY: "SET API KEY"
   CLIENT_ORIGIN: "SET CLIENT ORIGIN"
+  STORAGE_DEST: "GOOGLE_CLOUD_BUCKET"
+  BUCKET_NAME: "SET BUCKET NAME"
 
 entrypoint: gunicorn -w 1 main:app --preload
