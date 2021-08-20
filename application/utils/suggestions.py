@@ -10,12 +10,17 @@ from .constants import *
 suggestions = pickle.load(open(SUGGESTIONS_FILE, 'rb'))
 
 def load_csv_annotations(text, annotation_df):
-    annotations = []
+    annotations = {}
+
     for i, row in annotation_df.iterrows():
         span = (int(row['start']), int(row['end']))
         cui = [row['cui']]
-        annotations += [create_annotation(text[span[0]:span[1]], span, cui, 'high')]
-    return annotations
+        if span not in annotations:
+            annotations[span] = create_annotation(text[span[0]:span[1]], span, cui, 'high')
+        else:
+            annotations[span]['labels'].extend(create_labels([cui] if type(cui) is str else cui, 'high'))
+
+    return list(annotations.values())
 
 def suggest_mapped_annotations(text):
     annotations = []
