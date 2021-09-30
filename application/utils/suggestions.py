@@ -16,7 +16,9 @@ def load_csv_annotations(text, annotation_df):
         span = (int(row['start']), int(row['end']))
         cui = [row['cui']]
         if span not in annotations:
-            annotations[span] = create_annotation(text[span[0]:span[1]], span, cui, 'high')
+            annotations[span] = create_annotation(
+                text[span[0]:span[1]], span, cui, confidence='high', assertion=row['assertion']
+            )
         else:
             annotations[span]['labels'].extend(create_labels([cui] if type(cui) is str else cui, 'high'))
 
@@ -44,7 +46,7 @@ def keyword_annotations(text, keyword, labels, confidence):
         return []
 
 
-def create_annotation(text, span, labels, confidence):
+def create_annotation(text, span, labels, confidence, assertion):
     timestamp = time.time()  # Didn't round to ms to preserve uniqueness
     start, end = span
     if type(labels) is str:
@@ -58,7 +60,8 @@ def create_annotation(text, span, labels, confidence):
         "CUIMode": "normal",
         "experimentMode": 0,
         "creationType": "auto",
-        "decision": "undecided"
+        "decision": "undecided",
+        "assertion": assertion,
     }
 
     return annotation
