@@ -80,23 +80,34 @@ def get_filenames():
     filenames = get_filenames_from_directory()
 
     if filenames or filenames == []:
-        return jsonify(filenames=filenames)
+        valid_filenames = set()
+        for fn in filenames:
+            if 'user:' not in fn: valid_filenames.add(fn)
+            else:
+                i = fn.find('_user:')
+                ext = f".{fn.split('.')[-1]}"
+
+                user_part = fn[i:].replace(ext, '').replace('_user:', '')
+                if user_part == current_user.id:
+                    user_free_fn = fn[:i] + ext
+                    valid_filenames.add(user_free_fn)
+
+        return jsonify(filenames=sorted(list(valid_filenames)))
     else:
         return jsonify(error=True), 403
-
 
 @app.route("/api/get_file", methods=["POST"])  # this needs to be POST
 @login_required
 def get_file():
     incoming = request.get_json()
-    id = incoming["id"]
+    filename = incoming["id"]
     textDir = incoming["textDir"]
     annDir = incoming["annDir"]
 
     if textDir == None and annDir == None:
-        file = get_file_data(id)
+        file = get_file_data(filename, user=current_user.id)
     else:
-        file = get_file_data(id, textDir, annDir)
+        file = get_file_data(filename, textDir, annDir, user=current_user.id)
 
     if file:
         return jsonify(file=file)
@@ -111,9 +122,9 @@ def save_annotations():
     dir = incoming["dir"]
 
     if dir == None:
-        is_saved = save_annotations_file(incoming["id"]+".json", incoming["annotations"])
+        is_saved = save_annotations_file(incoming["id"], incoming["annotations"], user=current_user.id)
     else:
-        is_saved = save_annotations_file(incoming["id"]+".json", incoming["annotations"], dir)
+        is_saved = save_annotations_file(incoming["id"], incoming["annotations"], dir, user=current_user.id)
 
     if is_saved:
         return jsonify(saved=True)
